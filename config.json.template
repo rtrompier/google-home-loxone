@@ -29,6 +29,13 @@
       }
     },
     {
+      "id": "0e733ba6-033a-2b2b-ffffb7fe2005e936",
+      "name": "Piscine",
+      "type": "THERMOSTAT",
+      "loxoneType": "Temperature",
+      "format": "°C"
+    },
+    {
       "id": "0fd845c1-038a-12c9-ffffb7fe2005e936",
       "name": "Garage",
       "type": "SWITCH",
