@@ -1,0 +1,19 @@
+sudo: required
+dist: trusty
+language: node_js
+addons:
+  chrome: stable
+cache:
+  directories:
+  - node_modules
+notifications:
+  email:
+    on_failure: always
+    on_success: never
+node_js:
+- '8'
+branches:
+  only:
+  - master
+script:
+- npm test
