@@ -1,7 +1,7 @@
 {
-  "name": "alexa-xcrt",
+  "name": "google-home-loxone",
   "version": "1.0.0",
-  "description": "Alexa skill for Loxone",
+  "description": "Bridge for Google Home and Loxone",
   "main": "index.js",
   "dependencies": {
     "@akanass/rx-http-request": "^3.0.0",
