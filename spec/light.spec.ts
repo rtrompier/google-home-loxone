@@ -8,7 +8,7 @@ import { GoogleSmartHome } from '../src/google-smart-home';
 import { LoxoneRequest } from '../src/loxone-request';
 
 const config = require('./support/config_test.json') as Config;
-const jwtConfig = require('../jwt.json');
+const jwtConfig = require('./support/jwt.json');
 
 const statesEvents = new Subject<Component>();
 const loxoneRequest = new LoxoneRequest(config);

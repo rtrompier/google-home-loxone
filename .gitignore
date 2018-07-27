@@ -11,4 +11,4 @@ node_modules
 jwt.json
 config.json
 
-!webpack.config.js
+!spec/support/jwt.json

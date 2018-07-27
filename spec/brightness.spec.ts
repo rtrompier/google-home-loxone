@@ -8,7 +8,7 @@ import { GoogleSmartHome } from '../src/google-smart-home';
 import { LoxoneRequest } from '../src/loxone-request';
 
 const config = require('./support/config_test.json') as Config;
-const jwtConfig = require('../jwt.json');
+const jwtConfig = require('./support/jwt.json');
 
 const statesEvents = new Subject<Component>();
 const loxoneRequest = new LoxoneRequest(config);
@@ -49,7 +49,7 @@ describe('Brightness', () => {
         } as any;
         const data = request.body;
 
-        const smartHome = new GoogleSmartHome(config, components, new Auth0(config), statesEvents, jwtConfig);;
+        const smartHome = new GoogleSmartHome(config, components, new Auth0(config), statesEvents, jwtConfig); ;
 
         smartHome.handler(data, request).subscribe((result) => {
             console.log('RESP', JSON.stringify(result));
