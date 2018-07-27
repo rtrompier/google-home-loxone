@@ -1,0 +1,38 @@
+{
+  "loxone" : {
+    "url" : "",
+    "user" : "",
+    "password" : ""
+  },
+  "oAuthUrl": "https://xxx.eu.auth0.com",
+  "authorizedEmails": [
+    ""
+  ],
+  "agentUserId": "loxone-12345",
+  "token": "abcdefghijklmnop",
+  "testMode": false,
+  "log": false,
+  "components": [
+    {
+      "id": "103f2b65-00f3-012c-ffff6f38d2573aec",
+      "name": "Dressing",
+      "type": "LIGHT",
+      "loxoneType": "Light"
+    },
+    {
+      "id": "103f2b65-00f3-012c-ffff6f38d2573aec",
+      "name": "Dressing",
+      "type": "LIGHT",
+      "loxoneType": "Light",
+      "extendedOption": {
+        "brightness": true
+      }
+    },
+    {
+      "id": "0fd845c1-038a-12c9-ffffb7fe2005e936",
+      "name": "Garage",
+      "type": "SWITCH",
+      "loxoneType": "Door"
+    }
+  ]
+}

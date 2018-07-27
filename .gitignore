@@ -1,0 +1,14 @@
+.idea
+.vscode
+node_modules
+*.iml
+*.zip
+
+**/*.d.ts
+**/*.js
+**/*.js.map
+
+jwt.json
+config.json
+
+!webpack.config.js
