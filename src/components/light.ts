@@ -1,13 +1,13 @@
 import { Observable, of, Subject } from 'rxjs/index';
-import { map, tap } from 'rxjs/operators';
-import { CapabilityHandler, Capability } from '../capabilities/capability-handler';
+import { map } from 'rxjs/operators';
+import { Brightness, BrightnessHandler } from '../capabilities/brightness';
+import { CapabilityHandler } from '../capabilities/capability-handler';
 import { EndpointHealthHandler } from '../capabilities/endpoint-health';
 import { OnOff, OnOffHandler } from '../capabilities/on-off';
 import { ComponentRaw } from '../config';
 import { ErrorType } from '../error';
 import { LoxoneRequest } from '../loxone-request';
 import { Component } from './component';
-import { BrightnessHandler, Brightness } from '../capabilities/brightness';
 
 export class LightComponent extends Component implements OnOff, Brightness {
     private on: boolean;
@@ -31,7 +31,7 @@ export class LightComponent extends Component implements OnOff, Brightness {
             EndpointHealthHandler.INSTANCE,
         ];
 
-        if(this.extendedOption && this.extendedOption.brigthness) {
+        if (this.extendedOption && this.extendedOption.brightness) {
             capabilities.push(BrightnessHandler.INSTANCE);
         }
 

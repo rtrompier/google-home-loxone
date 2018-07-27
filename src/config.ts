@@ -10,7 +10,7 @@ export class ComponentRaw {
 }
 
 export class ExtendedOption {
-    public brigthness: boolean;
+    public brightness: boolean;
 }
 
 export class LoxoneConfig {
