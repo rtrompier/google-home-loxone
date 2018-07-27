@@ -3,9 +3,6 @@ dist: trusty
 language: node_js
 addons:
   chrome: stable
-cache:
-  directories:
-  - node_modules
 notifications:
   email:
     on_failure: always
