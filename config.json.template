@@ -11,7 +11,17 @@
   "agentUserId": "loxone-12345",
   "token": "abcdefghijklmnop",
   "notifier": {
-    "lang": "fr"
+    "lang": "fr",
+    "devices": [
+      {
+        "name": "Living Room",
+        "ip": "192.168.0.1"
+      },
+      {
+        "name": "Bedroom",
+        "ip": "192.168.0.2"
+      }
+    ]
   },
   "testMode": false,
   "log": false,

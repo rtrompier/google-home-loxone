@@ -19,8 +19,14 @@ export class LoxoneConfig {
     public password: string;
 }
 
+export class NotifierDevice {
+    public name: string;
+    public ip: string;
+}
+
 export class Notifier {
     public lang: string;
+    public devices: NotifierDevice[];
 }
 
 export class Config {

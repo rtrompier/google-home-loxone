@@ -1,5 +1,4 @@
 import { Request } from 'express-serve-static-core';
-import * as mdns from 'mdns';
 import * as GoogleHome from 'node-googlehome';
 import { from, Observable, throwError } from 'rxjs';
 import { Config } from '../config';
@@ -11,7 +10,7 @@ export class Notifier {
 
     constructor(config: Config) {
         this.config = config;
-        this.loadDevices();
+        this.devices = config.notifier.devices;
     }
 
     public handler(request: Request): Observable<any> {
@@ -28,29 +27,4 @@ export class Notifier {
         return from(service.speak(text));
     }
 
-    /**
-     * Load all Google Home devices on network
-     */
-    private loadDevices(): void {
-        const browser = mdns.createBrowser(mdns.tcp('googlecast'));
-        try { browser.start(); } catch (e) { }
-
-        const tmpServices = [];
-        browser.on('serviceUp', (service) => {
-            tmpServices.push(service);
-        });
-
-        setTimeout(() => {
-            browser.stop();
-            this.devices = tmpServices
-                .filter((service) => service.txtRecord.md.indexOf('Google Home') !== -1)
-                .map((service) => {
-                    const name = service.txtRecord.fn;
-                    const ip = service.addresses[0];
-                    return new NotifierService(name, ip);
-                });
-
-            console.log('Google Home Device detected', this.devices);
-        }, 2000);
-    }
 }
