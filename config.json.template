@@ -10,6 +10,9 @@
   ],
   "agentUserId": "loxone-12345",
   "token": "abcdefghijklmnop",
+  "notifier": {
+    "lang": "fr"
+  },
   "testMode": false,
   "log": false,
   "components": [

@@ -19,6 +19,10 @@ export class LoxoneConfig {
     public password: string;
 }
 
+export class Notifier {
+    public lang: string;
+}
+
 export class Config {
     public loxone: LoxoneConfig;
     public components: ComponentRaw[];
@@ -28,4 +32,5 @@ export class Config {
     public testMode: boolean;
     public agentUserId: string;
     public token: string;
+    public notifier: Notifier;
 }

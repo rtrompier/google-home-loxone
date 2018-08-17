@@ -1,13 +1,14 @@
 import * as bodyParser from 'body-parser';
-import express, {Express} from 'express';
-import {Request, Response} from 'express-serve-static-core';
-import {Subject} from 'rxjs/internal/Subject';
-import {Auth0} from './auth';
-import {Component} from './components/component';
-import {ComponentsFactory} from './components/components.factory';
-import {Config} from './config';
-import {GoogleSmartHome} from './google-smart-home';
-import {LoxoneRequest} from './loxone-request';
+import express, { Express } from 'express';
+import { Request, Response } from 'express-serve-static-core';
+import { Subject } from 'rxjs/internal/Subject';
+import { Auth0 } from './auth';
+import { Component } from './components/component';
+import { ComponentsFactory } from './components/components.factory';
+import { Config } from './config';
+import { GoogleSmartHome } from './google-smart-home';
+import { LoxoneRequest } from './loxone-request';
+import { Notifier } from './notifier/notifier';
 
 const ngrok = require('ngrok');
 
@@ -18,6 +19,7 @@ const jwtConfig = require('../jwt.json');
 class Server {
   public app: Express;
   private smartHome: GoogleSmartHome;
+  private notifier: Notifier;
 
   static bootstrap() {
     return new Server();
@@ -31,11 +33,12 @@ class Server {
     const loxoneRequest = new LoxoneRequest(config);
     const components = new ComponentsFactory(config, loxoneRequest, statesEvents);
     this.smartHome = new GoogleSmartHome(config, components, new Auth0(config), statesEvents, jwtConfig);
+    this.notifier = new Notifier(config);
   }
 
   config() {
     this.app.use(bodyParser.json());
-    this.app.use(bodyParser.urlencoded({extended: true}));
+    this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(function (err, req, res, next) {
       err.status = 404;
       next(err);
@@ -44,6 +47,7 @@ class Server {
 
   routes() {
     const router = express.Router();
+
     router.post('/smarthome', (request: Request, response: Response) => {
       const data = request.body;
 
@@ -55,6 +59,13 @@ class Server {
         }).json(result);
       })
     });
+
+    router.get('/speech', (request: Request, response: Response) => {
+      this.notifier.handler(request).subscribe((result) => {
+        response.status(200).json(result);
+      });
+    });
+
     this.app.use(router);
   }
 }

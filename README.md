@@ -32,3 +32,10 @@ done securely through [JWT (JSON web tokens)](https://jwt.io/).
 1. Select **Create Credentials** and create a **Service account key**
 1. Create the account and download a JSON file.
    jwt.json file
+
+#### Notifier
+This project allow you to send notifications to yours Google Home.
+
+1. In the configuration file, you have to set your language ('en', 'fr', etc ...). Please, see the config.json.template file.
+1. Your notification must be send by HTTP Call to `http://YOUR_SERVER:3000/speech`
+1. Text and targeted devide, must be passed in query param. Eg : `http://YOUR_SERVER:3000/speech?device=YOUR_GOOGLEHOME_NAME&text=Hello`

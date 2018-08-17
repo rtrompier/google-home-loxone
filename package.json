@@ -11,6 +11,8 @@
     "https": "^1.0.0",
     "jasmine-node": "^1.14.5",
     "lxcommunicator": "0.9.0",
+    "mdns": "^2.4.0",
+    "node-googlehome": "0.0.5",
     "node-lox-ws-api": "^0.4.3",
     "npm": "^6.1.0",
     "rxjs": "^6.2.1",
