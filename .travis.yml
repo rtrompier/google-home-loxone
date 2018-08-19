@@ -12,5 +12,7 @@ node_js:
 branches:
   only:
   - master
+before_install:
+- sudo apt-get install libavahi-compat-libdnssd-dev
 script:
 - npm test
