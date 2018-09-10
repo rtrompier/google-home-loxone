@@ -1,3 +1,4 @@
+import { of } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { Capability, CapabilityHandler } from './capability-handler';
@@ -33,11 +34,12 @@ export class BrightnessHandler implements CapabilityHandler<Brightness> {
     );
   }
 
-  handleCommands(component: Brightness, command: string, payload?: any): Observable<any> {
+  handleCommands(component: Brightness, command: string, payload?: any): Observable<boolean> {
     if (payload['brightness']) {
       return component.setBrightness(+payload['brightness']);
     } else {
-      // TODO : Error
+      console.error('Error during setting brightness', component, payload);
+      of(false);
     }
   }
 }

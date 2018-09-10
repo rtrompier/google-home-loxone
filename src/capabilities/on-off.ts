@@ -33,7 +33,7 @@ export class OnOffHandler implements CapabilityHandler<OnOff> {
     }));
   }
 
-  handleCommands(component: OnOff, command: string, payload?: any): Observable<any> {
+  handleCommands(component: OnOff, command: string, payload?: any): Observable<boolean> {
     if (payload['on']) {
       return component.turnOn();
     } else {

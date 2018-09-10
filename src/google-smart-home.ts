@@ -149,7 +149,7 @@ export class GoogleSmartHome {
                     return of({
                         id: device.id,
                         errorCode: 'deviceNotFound' as SmartHomeV1ExecuteErrors
-                    })
+                    }) as any;
                 }
 
                 return this.components.getComponent()[device.id].getStates().pipe(
@@ -157,7 +157,7 @@ export class GoogleSmartHome {
                         return {
                             id: device.id,
                             states: states
-                        }
+                        } as any;
                     })
                 );
             }),
@@ -180,7 +180,7 @@ export class GoogleSmartHome {
                     payload: {
                         devices: devices
                     }
-                }
+                } as SmartHomeV1QueryResponse
             })
         );
     }
@@ -210,7 +210,7 @@ export class GoogleSmartHome {
                         ids: [device.id],
                         status: 'ERROR' as SmartHomeV1ExecuteStatus,
                         errorCode: 'deviceNotFound' as SmartHomeV1ExecuteErrors
-                    })
+                    } as SmartHomeV1ExecuteResponseCommands);
                 }
 
                 const component = this.components.getComponent()[device.id];
@@ -232,17 +232,17 @@ export class GoogleSmartHome {
                     }),
                     catchError((err) => {
                         // TODO Make this better
-                        console.log('ERROR', err);
+                        console.error('ERROR', err);
                         return of(false);
                     }),
-                    flatMap((succeed) => {
+                    flatMap((succeed: boolean) => {
                         // Can't find the handler, return not supported
                         if (!succeed) {
                             return of({
                                 ids: [device.id],
                                 status: 'ERROR' as SmartHomeV1ExecuteStatus,
                                 errorCode: 'notSupported' as SmartHomeV1ExecuteErrors
-                            })
+                            } as SmartHomeV1ExecuteResponseCommands);
                         }
 
                         // Call state on component and merge them
@@ -252,9 +252,9 @@ export class GoogleSmartHome {
                                     ids: [device.id],
                                     status: 'SUCCESS' as SmartHomeV1ExecuteStatus,
                                     states: states
-                                }
+                                } as SmartHomeV1ExecuteResponseCommands;
                             })
-                        )
+                        );
                     })
                 )
             })
