@@ -39,3 +39,10 @@ This project allow you to send notifications to yours Google Home.
 1. In the configuration file, you have to set your language ('en', 'fr', etc ...) and define your google home devices. Please, see the config.json.template file.
 1. Your notification must be send by HTTP Call to `http://YOUR_SERVER:3000/speech`
 1. Text and targeted devide, must be passed in query param. Eg : `http://YOUR_SERVER:3000/speech?device=YOUR_GOOGLEHOME_NAME&text=Hello`
+
+#### Weather
+This project allow you to get weather information from Netatmo Weather Station near of you.
+You can find all station here : https://weathermap.netatmo.com/
+
+1. In the configuration file, you have to set your Netatmo API Application information like clientId and clientSecret, your Netatmo credentials, and coordinate square around you
+1. You can retrieve rain information by calling : `http://YOUR_SERVER:3000/weather`
