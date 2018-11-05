@@ -5,6 +5,7 @@ import { Config } from '../config';
 import { WeatherMeasure } from './weather-measure.model';
 import { WeatherResponse } from './weather-response.model';
 import { WeatherStation } from './weather-station.model';
+import { WeatherWind } from './weather-wind.model';
 
 export class NetatmoApi {
     private readonly config: Config;
@@ -12,7 +13,9 @@ export class NetatmoApi {
 
     private temps: number[] = [];
     private humidities: number[] = [];
+    private pressures: number[] = [];
     private isRaining = false;
+    private windStrength: number[] = [];
 
     constructor(config: Config) {
         this.config = config;
@@ -26,13 +29,15 @@ export class NetatmoApi {
                     // Parse response
                     resps.forEach((resp) => {
                         Object.keys(resp.measures).forEach((id) => {
-                            this.findTempsOrHumidity(resp.measures[id], 'temperature');
-                            this.findTempsOrHumidity(resp.measures[id], 'humidity');
+                            this.findValue(resp.measures[id], 'temperature');
+                            this.findValue(resp.measures[id], 'humidity');
+                            this.findValue(resp.measures[id], 'pressure');
                             this.findRain(resp.measures[id]);
+                            this.findWind(resp.measures[id]);
                         });
                     });
                 }),
-                map(() => new WeatherResponse(this.temps, this.humidities, this.isRaining))
+                map(() => new WeatherResponse(this.temps, this.humidities, this.pressures, this.isRaining, this.windStrength))
             );
     }
 
@@ -40,7 +45,7 @@ export class NetatmoApi {
      * Push all temperature into the temps array
      * @param measure
      */
-    private findTempsOrHumidity(measure: any, type: 'temperature' | 'humidity'): void {
+    private findValue(measure: any, type: 'temperature' | 'humidity' | 'pressure'): void {
         if (!measure.type) {
             return;
         }
@@ -54,6 +59,8 @@ export class NetatmoApi {
         Object.keys(currentMeasure.res).forEach((timestamp) => {
             if (type === 'temperature') {
                 this.temps.push(currentMeasure.res[timestamp][indexType]);
+            } else if (type === 'pressure') {
+                this.pressures.push(currentMeasure.res[timestamp][indexType]);
             } else {
                 this.humidities.push(currentMeasure.res[timestamp][indexType]);
             }
@@ -66,6 +73,15 @@ export class NetatmoApi {
         }
 
         this.isRaining = measure.rain_live > 0 ? true : false;
+    }
+
+    private findWind(measure: any): void {
+        if (!measure.wind_strength) {
+            return;
+        }
+
+        const currentMeasure = measure as WeatherWind;
+        this.windStrength.push(currentMeasure.wind_strength);
     }
 
     private auth(): Observable<any> {
