@@ -14,7 +14,7 @@ export class NetatmoApi {
     private temps: number[] = [];
     private humidities: number[] = [];
     private pressures: number[] = [];
-    private isRaining = false;
+    private isRaining: 0 | 1 = 0;
     private windStrength: number[] = [];
 
     constructor(config: Config) {
@@ -72,7 +72,7 @@ export class NetatmoApi {
             return;
         }
 
-        this.isRaining = measure.rain_live > 0 ? true : false;
+        this.isRaining = measure.rain_live > 0 ? 1 : 0;
     }
 
     private findWind(measure: any): void {

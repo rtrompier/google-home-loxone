@@ -2,10 +2,10 @@ export class WeatherResponse {
     public temp: number;
     public humidity: number;
     public pressure: number;
-    public isRaining: boolean;
+    public isRaining: 0 | 1;
     public windStrength: number;
 
-    constructor(temps: number[], humidities: number[], pressures: number[], isRaining: boolean, windStrengths: number[]) {
+    constructor(temps: number[], humidities: number[], pressures: number[], isRaining: 0 | 1, windStrengths: number[]) {
         if (temps.length > 0) {
             const sum = temps.reduce((a, b) => a + b);
             this.temp = (sum / temps.length * 100) / 100;
