@@ -67,6 +67,8 @@ class Server {
     router.get('/speech', (request: Request, response: Response) => {
       this.notifier.handler(request).subscribe((result) => {
         response.status(200).json(result);
+      }, (error) => {
+        response.status(500).json({error: error});
       });
     });
 
