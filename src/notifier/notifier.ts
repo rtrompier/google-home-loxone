@@ -17,6 +17,10 @@ export class Notifier {
         const deviceName = request.query.device;
         const text = request.query.text;
 
+        if (this.config.log) {
+            console.log('Notifier request received', deviceName, text, request);
+        }
+
         const device = this.devices.find((dev) => dev.name === deviceName);
         if (!device) {
             return throwError('Device not found');
