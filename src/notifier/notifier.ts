@@ -1,6 +1,7 @@
 import { Request } from 'express-serve-static-core';
 import * as GoogleHome from 'node-googlehome';
 import { from, Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Config } from '../config';
 import { NotifierService } from './notifier-service.model';
 
@@ -28,7 +29,11 @@ export class Notifier {
 
         const service = new GoogleHome.Connecter(device.ip);
         service.config({ lang: this.config.notifier.lang });
-        return from(service.speak(text));
+        return from(service.speak(text))
+            .pipe(catchError((err) => {
+                console.error(err);
+                return throwError(`${err.message}`);
+            }));
     }
 
 }
