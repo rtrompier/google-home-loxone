@@ -63,6 +63,13 @@
       "name": "Garage",
       "type": "SWITCH",
       "loxoneType": "Door"
+    },
+    {
+      "id": "11f58b2f-034e-25ec-ffffb5ac4f3ca8bd",
+      "name": "Volet",
+      "type": "BLINDS",
+      "room": "Salon",
+      "loxoneType": "Blind"
     }
   ]
 }

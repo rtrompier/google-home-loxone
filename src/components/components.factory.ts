@@ -1,13 +1,14 @@
-import {Subject} from 'rxjs/internal/Subject';
-import {Config} from '../config';
-import {LoxoneRequest} from '../loxone-request';
-import {Component} from './component';
-import {CustomOnOff} from './custom-on-off';
-import {DoorComponent} from './door';
-import {JalousieComponent} from './jalousie';
-import {LightComponent} from './light';
-import {PoolComponent} from './pool';
-import {TemperatureComponent} from './temperature';
+import { Subject } from 'rxjs/internal/Subject';
+import { Config } from '../config';
+import { LoxoneRequest } from '../loxone-request';
+import { BlindComponent } from './blind';
+import { Component } from './component';
+import { CustomOnOff } from './custom-on-off';
+import { DoorComponent } from './door';
+import { JalousieComponent } from './jalousie';
+import { LightComponent } from './light';
+import { PoolComponent } from './pool';
+import { TemperatureComponent } from './temperature';
 
 export class ComponentsFactory {
   private readonly components: { [key: string]: Component } = {};
@@ -31,6 +32,9 @@ export class ComponentsFactory {
             break;
           case 'Jalousie':
             component = new JalousieComponent(rawComponent, loxoneRequest, statesEvents);
+            break;
+          case 'Blind':
+            component = new BlindComponent(rawComponent, loxoneRequest, statesEvents);
             break;
           case 'Custom-OnOff':
             component = new CustomOnOff(rawComponent, loxoneRequest, statesEvents)

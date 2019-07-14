@@ -56,7 +56,9 @@ class Server {
       const data = request.body;
 
       this.smartHome.handler(data, request).subscribe(result => {
-        console.log(JSON.stringify(result));
+        if (config.log) {
+          console.log('Response sent to Google', JSON.stringify(result));
+        }
         response.status(200).set({
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Headers': 'Content-Type, Authorization',
@@ -68,7 +70,7 @@ class Server {
       this.notifier.handler(request).subscribe((result) => {
         response.status(200).json(result);
       }, (error) => {
-        response.status(500).json({error: error});
+        response.status(500).json({ error: error });
       });
     });
 
