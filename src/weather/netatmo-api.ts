@@ -1,6 +1,6 @@
 import * as req from 'request'
 import { Observable, Observer } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { first, map, switchMap, tap } from 'rxjs/operators';
 import { Config } from '../config';
 import { WeatherMeasure } from './weather-measure.model';
 import { WeatherResponse } from './weather-response.model';
@@ -10,11 +10,12 @@ import { WeatherWind } from './weather-wind.model';
 export class NetatmoApi {
     private readonly config: Config;
     private token: string;
+    private refreshToken: string;
 
     private temps: number[] = [];
     private humidities: number[] = [];
     private pressures: number[] = [];
-    private isRaining: 0 | 1 = 0;
+    private isRaining: 0 | 1 = 0;
     private windStrength: number[] = [];
 
     constructor(config: Config) {
@@ -22,6 +23,12 @@ export class NetatmoApi {
     }
 
     public getWeather(): Observable<any> {
+        this.temps = [];
+        this.humidities = [];
+        this.pressures = [];
+        this.isRaining = 0;
+        this.windStrength = [];
+
         return this.auth()
             .pipe(
                 switchMap(() => this.getData()),
@@ -86,6 +93,12 @@ export class NetatmoApi {
 
     private auth(): Observable<any> {
         return Observable.create((observer: Observer<any>) => {
+            if (this.token) {
+                observer.next(null);
+                observer.complete();
+                return;
+            }
+
             req.post('https://api.netatmo.com/oauth2/token', {
                 form: {
                     'client_id': this.config.weather.clientId,
@@ -95,9 +108,9 @@ export class NetatmoApi {
                     'password': this.config.weather.password,
                     'scope': 'read_station',
                 }
-            }, (error, response, body) => {
+            }, (error, response, resp) => {
                 if (this.config.log) {
-                    console.log(`Netatmo auth response`, body);
+                    console.log(`Netatmo auth response`, resp);
                 }
 
                 if (error) {
@@ -106,7 +119,19 @@ export class NetatmoApi {
                     return;
                 }
 
-                this.token = JSON.parse(body).access_token;
+                const body = JSON.parse(resp);
+                this.token = body.access_token;
+                this.refreshToken = body.refresh_token;
+
+                if (body.expires_in) {
+                    setTimeout(() => {
+                        if (this.config.log) {
+                            console.log(`Refresh Netatmo token`, resp);
+                        }
+                        this.refreshAuth().pipe(first()).subscribe();
+                    }, body.expires_in * 1000);
+                }
+
                 observer.next(body);
                 observer.complete();
             });
@@ -138,6 +163,48 @@ export class NetatmoApi {
                 }
 
                 observer.next(JSON.parse(body).body);
+                observer.complete();
+            });
+        });
+    }
+
+    private refreshAuth(): Observable<void> {
+        return Observable.create((observer: Observer<WeatherStation[]>) => {
+            req.post('https://api.netatmo.com/oauth2/token', {
+                headers: {
+                    'Content-Type': `application/json`,
+                },
+                body: JSON.stringify({
+                    grant_type: 'refresh_token',
+                    refresh_token: this.refreshToken,
+                    client_id: this.config.weather.clientId,
+                    client_secret: this.config.weather.clientSecret,
+                }),
+            }, (error, response, resp) => {
+                if (this.config.log) {
+                    console.log(`Netatmo refreshAuth response`, error, resp);
+                }
+
+                if (error) {
+                    observer.error(error);
+                    observer.complete();
+                    return;
+                }
+
+                const body = JSON.parse(resp);
+                this.token = body.access_token;
+                this.refreshToken = body.refresh_token;
+
+                if (body.expires_in) {
+                    setTimeout(() => {
+                        if (this.config.log) {
+                            console.log(`Refresh Netatmo token`, resp);
+                        }
+                        this.refreshAuth().pipe(first()).subscribe();
+                    }, body.expires_in * 1000);
+                }
+
+                observer.next(body);
                 observer.complete();
             });
         });
