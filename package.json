@@ -44,8 +44,8 @@
   },
   "scripts": {
     "start": "tsc && node dist/index.js",
-    "start:prod": "tsc && pm2 start dist/index.js",
-    "stop": "forever stop dist/index.js",
+    "start:prod": "tsc && pm2 start dist/index.js --name google-home-loxone",
+    "stop": "pm2 stop google-home-loxone",
     "test": "jasmine-ts \"spec/**/*.spec.ts\""
   },
   "author": "rtrompier",
