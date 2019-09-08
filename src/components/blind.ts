@@ -26,11 +26,11 @@ export class BlindComponent extends Component implements OpenClose {
                 if (this.askedPos) {
                     if (this.stateUp && this.statePos > this.askedPos) {
                         this.askedPos = null;
-                        this.stop();
+                        this.stop().subscribe();
                     }
                     if (this.stateDown && this.statePos < this.askedPos) {
                         this.askedPos = null;
-                        this.stop();
+                        this.stop().subscribe();
                     }
                 }
             });
@@ -96,11 +96,10 @@ export class BlindComponent extends Component implements OpenClose {
         }
 
         this.askedPos = percent;
-        const dir = this.askedPos > (this.statePos * 100) ? 'up' : 'down';
+        const dir = this.askedPos > this.statePos ? 'up' : 'down';
         return this.loxoneRequest.sendCmd(this.loxoneId, dir).pipe(map(result => {
             if (result.code === '200') {
                 this.statePos = percent;
-                this.stateDown = true;
                 return true;
             }
             throw new Error(ErrorType.ENDPOINT_UNREACHABLE);
