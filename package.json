@@ -24,7 +24,7 @@
     "@types/node": "~6.0.60",
     "@types/request": "2.47.0",
     "awesome-typescript-loader": "^3.1.2",
-    "bestzip": "^1.1.4",
+    "bestzip": "^2.1.7",
     "codelyzer": "^2.1.1",
     "copyfiles": "^1.2.0",
     "del-cli": "^0.2.1",
