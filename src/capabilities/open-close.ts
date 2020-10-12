@@ -1,7 +1,15 @@
 import { forkJoin, of } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
+import { ErrorType } from '../error';
 import { Capability, CapabilityHandler } from './capability-handler';
+
+export class OpenCloseAttributes {
+    discreteOnlyOpenClose?: boolean;
+    openDirection?: Array<'UP' | 'DOWN' | 'LEFT' | 'RIGHT' | 'IN' | 'OUT'>;
+    commandOnlyOpenClose?: boolean;
+    queryOnlyOpenClose?: boolean;
+}
 
 export interface OpenClose extends Capability {
     open(): Observable<boolean>;
@@ -13,6 +21,8 @@ export interface OpenClose extends Capability {
     setPosition(percent: number): Observable<boolean>;
 
     getOpenDirection(): Observable<string>;
+
+    getAttributes(): OpenCloseAttributes;
 }
 
 export class OpenCloseHandler implements CapabilityHandler<OpenClose> {
@@ -26,8 +36,8 @@ export class OpenCloseHandler implements CapabilityHandler<OpenClose> {
         return 'action.devices.traits.OpenClose'
     }
 
-    getAttributes(component: OpenClose): any {
-        return {}
+    getAttributes(component: OpenClose): OpenCloseAttributes {
+        return component.getAttributes();
     }
 
     getState(component: OpenClose): Observable<any> {
@@ -45,6 +55,11 @@ export class OpenCloseHandler implements CapabilityHandler<OpenClose> {
     }
 
     handleCommands(component: OpenClose, command: string, payload?: any): Observable<boolean> {
+        if (this.getAttributes(component)?.queryOnlyOpenClose) {
+            console.error('Component with queryOnlyOpenClose attribute can not be commanded');
+            throw new Error(ErrorType.NOT_SUPPORTED_IN_CURRENT_MODE);
+        }
+
         const percent = payload['openPercent'];
 
         if (percent === 0) {

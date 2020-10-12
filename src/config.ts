@@ -1,16 +1,11 @@
 export class ComponentRaw {
     public id: string;
     public loxoneId?: string;
-    public type: string;
+    public type: 'LIGHT' | 'THERMOSTAT' | 'BLINDS' | 'SWITCH' | 'SENSOR';
     public loxoneType: string;
     public name: string;
     public room: string;
     public customData?: {};
-    public extendedOption?: ExtendedOption;
-}
-
-export class ExtendedOption {
-    public brightness: boolean;
 }
 
 export class LoxoneConfig {

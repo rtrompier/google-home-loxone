@@ -1,9 +1,9 @@
-import {TemperatureSetting} from '../capabilities/temperature-setting';
-import {ComponentRaw} from '../config';
-import {LoxoneRequest} from '../loxone-request';
-import {TemperatureComponent} from './temperature';
-import {Component} from './component';
-import {Subject} from 'rxjs/index';
+import { Subject } from 'rxjs';
+import { TemperatureSetting } from '../capabilities/temperature-setting';
+import { ComponentRaw } from '../config';
+import { LoxoneRequest } from '../loxone-request';
+import { Component } from './component';
+import { TemperatureComponent } from './temperature';
 
 export class PoolComponent extends TemperatureComponent implements TemperatureSetting {
   private pumpId: string;

@@ -9,37 +9,28 @@ import { ErrorType } from '../error';
 import { LoxoneRequest } from '../loxone-request';
 import { Component } from './component';
 
-export class LightComponent extends Component implements OnOff, Brightness {
+export class SwitchComponent extends Component implements OnOff {
     private on: boolean;
-    private brightness: number;
 
     constructor(rawComponent: ComponentRaw, loxoneRequest: LoxoneRequest, statesEvents: Subject<Component>) {
         super(rawComponent, loxoneRequest, statesEvents);
 
         this.loxoneRequest.getControlInformation(this.loxoneId).subscribe(light => {
-            Object.keys(light.states).forEach((prop) => {
-                // Subscribe on each status update of the current light
-                this.loxoneRequest.watchComponent(light.states[prop]).subscribe((event) => {
-                    switch (prop) {
-                        case 'active':
-                            this.on = event === 1 ? true : false;
-                            this.statesEvents.next(this);
-                            break;
-                        case 'position':
-                            this.brightness = event;
-                            this.statesEvents.next(this);
-                    }
-                });
+            // Subscribe on active status update of the current switch
+            this.loxoneRequest.watchComponent(light.states.active).subscribe((event) => {
+                this.on = event === 1 ? true : false;
+                this.statesEvents.next(this);
             });
         });
     }
 
     getCapabilities(): CapabilityHandler<any>[] {
-        return [
+        const capabilities: CapabilityHandler<any>[] = [
             OnOffHandler.INSTANCE,
-            BrightnessHandler.INSTANCE,
-            EndpointHealthHandler.INSTANCE
+            EndpointHealthHandler.INSTANCE,
         ];
+
+        return capabilities;
     }
 
     turnOn(): Observable<boolean> {
@@ -64,22 +55,7 @@ export class LightComponent extends Component implements OnOff, Brightness {
         }))
     }
 
-    setBrightness(val) {
-        return this.loxoneRequest.sendCmd(this.loxoneId, val).pipe(map((result) => {
-            if (result.code === '200') {
-                this.brightness = val;
-                this.statesEvents.next(this);
-                return true;
-            }
-            throw new Error(ErrorType.ENDPOINT_UNREACHABLE)
-        }))
-    }
-
     getPowerState(): Observable<any> {
         return of(this.on);
-    }
-
-    getBrightnessState(): Observable<any> {
-        return of(this.brightness);
     }
 }

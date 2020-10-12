@@ -8,7 +8,7 @@ import { ErrorType } from '../error';
 import { LoxoneRequest } from '../loxone-request';
 import { Component } from './component';
 
-export class BlindComponent extends Component implements OpenClose {
+export class OpenCloseSensorComponent extends Component implements OpenClose {
     protected statePos: number;
     protected stateUp: boolean;
     protected stateDown: boolean;
@@ -17,16 +17,12 @@ export class BlindComponent extends Component implements OpenClose {
         super(rawComponent, loxoneRequest, statesEvents);
 
         this.loxoneRequest.getControlInformation(this.loxoneId).subscribe(jalousie => {
-            this.loxoneRequest.watchComponent(jalousie['states']['position']).subscribe(event => {
-                this.statePos = (1 - event) * 100;
+            this.loxoneRequest.watchComponent(jalousie['states']['numOpen']).subscribe(event => {
+                // TODO Listen for open & send event
             });
 
-            this.loxoneRequest.watchComponent(jalousie['states']['up']).subscribe(event => {
-                this.stateUp = event;
-            });
-
-            this.loxoneRequest.watchComponent(jalousie['states']['down']).subscribe(event => {
-                this.stateDown = event;
+            this.loxoneRequest.watchComponent(jalousie['states']['numClosed']).subscribe(event => {
+                // TODO Listen for close & send event
             });
         });
     }
@@ -78,10 +74,7 @@ export class BlindComponent extends Component implements OpenClose {
 
     getAttributes(): OpenCloseAttributes {
         return {
-            openDirection: [
-                'UP',
-                'DOWN'
-            ],
+            discreteOnlyOpenClose: true,
             queryOnlyOpenClose: true,
         };
     }
