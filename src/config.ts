@@ -43,7 +43,6 @@ export class Config {
     public log: boolean;
     public testMode: boolean;
     public agentUserId: string;
-    public token: string;
     public notifier: Notifier;
     public weather: Weather;
 }

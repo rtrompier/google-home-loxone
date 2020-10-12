@@ -41,8 +41,7 @@ export class GoogleSmartHome {
             .subscribe(() => {
                 console.log('Autodiscover from loxone finished');
                 this.smarthomeApp = smarthome({
-                    jwt: jwtConfig,
-                    key: this.config.token
+                    jwt: jwtConfig
                 });
 
                 this.smarthomeApp.requestSync(this.config.agentUserId)
