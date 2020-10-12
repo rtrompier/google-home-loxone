@@ -16,15 +16,15 @@ export class JalousieComponent extends Component implements OnOff {
     super(rawComponent, loxoneRequest, statesEvents);
 
     this.loxoneRequest.getControlInformation(this.loxoneId).subscribe(jalousie => {
-      this.loxoneRequest.watchComponent(jalousie['states']['position']).subscribe(event => {
+      this.loxoneRequest.watchComponent(jalousie.states.position).subscribe(event => {
         this.statePos = event;
       });
 
-      this.loxoneRequest.watchComponent(jalousie['states']['up']).subscribe(event => {
+      this.loxoneRequest.watchComponent(jalousie.states.up).subscribe(event => {
         this.stateUp = event;
       });
 
-      this.loxoneRequest.watchComponent(jalousie['states']['down']).subscribe(event => {
+      this.loxoneRequest.watchComponent(jalousie.states.down).subscribe(event => {
         this.stateDown = event;
       });
     });
