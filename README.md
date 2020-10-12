@@ -10,6 +10,7 @@ We suggest to use the free oauth 2.0 server : OAuth0
 
 1. Create an account or login
 1. Create a new application (Eg : Google Home)
+1. In **Allowed Callback URLs** section, add https://oauth-redirect.googleusercontent.com/r/YOUR_GOOGLE_PROJECTNAME
 
 ### Create an Actions on Google developer project
 
