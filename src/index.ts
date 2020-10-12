@@ -11,8 +11,6 @@ import { LoxoneRequest } from './loxone-request';
 import { Notifier } from './notifier/notifier';
 import { Weather } from './weather/weather';
 
-const ngrok = require('ngrok');
-
 // Serve the application at the given port
 const config = require('../config.json') as Config;
 const jwtConfig = require('../jwt.json');
@@ -43,7 +41,7 @@ class Server {
   config() {
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
-    this.app.use(function (err, req, res, next) {
+    this.app.use((err, req, res, next) => {
       err.status = 404;
       next(err);
     });
@@ -81,9 +79,6 @@ class Server {
 }
 
 const server = Server.bootstrap().app.listen(3000, () => {
-  const host = server.address().address;
-  const port = server.address().port;
-
-  console.log('Smart Home Cloud and App listening at %s:%s', host, port);
+  console.log('Smart Home Cloud and App listening at %s:%s', `http://localhost`, 3000);
 });
 

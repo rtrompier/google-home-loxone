@@ -34,15 +34,18 @@ export class Auth0 {
       return of(true);
     }
 
-    return this.checkUser(token).pipe(
-      map(result => {
-        if (result.response.statusCode === 200) {
-          const user = JSON.parse(result.response.body);
-          return this.authorizedEmails.indexOf(user.email) > -1;
-        }
-        return false;
-      },
-        catchError(() => of(false))
-      ));
+    // TODO : Remove
+    return of(true);
+
+    // return this.checkUser(token).pipe(
+    //   map(result => {
+    //     if (result.response.statusCode === 200) {
+    //       const user = JSON.parse(result.response.body);
+    //       return this.authorizedEmails.indexOf(user.email) > -1;
+    //     }
+    //     return false;
+    //   },
+    //     catchError(() => of(false))
+    //   ));
   }
 }

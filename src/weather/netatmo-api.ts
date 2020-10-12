@@ -1,5 +1,5 @@
-import * as req from 'request'
-import { Observable, Observer } from 'rxjs';
+import { RxHR } from '@akanass/rx-http-request';
+import { Observable, of } from 'rxjs';
 import { first, map, switchMap, tap } from 'rxjs/operators';
 import { Config } from '../config';
 import { WeatherMeasure } from './weather-measure.model';
@@ -92,34 +92,28 @@ export class NetatmoApi {
     }
 
     private auth(): Observable<any> {
-        return Observable.create((observer: Observer<any>) => {
-            if (this.token) {
-                observer.next(null);
-                observer.complete();
-                return;
-            }
+        if (this.token) {
+            return of(null);
+        }
 
-            req.post('https://api.netatmo.com/oauth2/token', {
-                form: {
-                    'client_id': this.config.weather.clientId,
-                    'client_secret': this.config.weather.clientSecret,
-                    'grant_type': 'password',
-                    'username': this.config.weather.username,
-                    'password': this.config.weather.password,
-                    'scope': 'read_station',
-                }
-            }, (error, response, resp) => {
+        return RxHR.post(`https://api.netatmo.com/oauth2/token`, {
+            json: true,
+            form: {
+                'client_id': this.config.weather.clientId,
+                'client_secret': this.config.weather.clientSecret,
+                'grant_type': 'password',
+                'username': this.config.weather.username,
+                'password': this.config.weather.password,
+                'scope': 'read_station',
+            }
+        }).pipe(
+            map((resp: any) => {
+                const body = resp.body;
+
                 if (this.config.log) {
                     console.log(`Netatmo auth response`, resp);
                 }
 
-                if (error) {
-                    observer.error(error);
-                    observer.complete();
-                    return;
-                }
-
-                const body = JSON.parse(resp);
                 this.token = body.access_token;
                 this.refreshToken = body.refresh_token;
 
@@ -132,66 +126,51 @@ export class NetatmoApi {
                     }, body.expires_in * 1000);
                 }
 
-                observer.next(body);
-                observer.complete();
-            });
-        });
+                return body;
+            })
+        );
     }
 
     private getData(): Observable<WeatherStation[]> {
-        return Observable.create((observer: Observer<WeatherStation[]>) => {
-            req.post('https://api.netatmo.com/api/getpublicdata', {
-                headers: {
-                    'Content-Type': `application/json`,
-                },
-                body: JSON.stringify({
-                    'access_token': this.token,
-                    'lat_ne': this.config.weather.lat_ne,
-                    'lon_ne': this.config.weather.lon_ne,
-                    'lat_sw': this.config.weather.lat_sw,
-                    'lon_sw': this.config.weather.lon_sw
-                }),
-            }, (error, response, body) => {
+        return RxHR.post(`https://api.netatmo.com/api/getpublicdata`, {
+            json: true,
+            body: {
+                'access_token': this.token,
+                'lat_ne': this.config.weather.lat_ne,
+                'lon_ne': this.config.weather.lon_ne,
+                'lat_sw': this.config.weather.lat_sw,
+                'lon_sw': this.config.weather.lon_sw
+            }
+        }).pipe(
+            map((resp: any) => {
+                const body = resp.body;
+
                 if (this.config.log) {
-                    console.log(`Weather response`, error, body);
+                    console.log(`Weather response`, body);
                 }
 
-                if (error) {
-                    observer.error(error);
-                    observer.complete();
-                    return;
-                }
-
-                observer.next(JSON.parse(body).body);
-                observer.complete();
-            });
-        });
+                return body.body;
+            })
+        );
     }
 
     private refreshAuth(): Observable<void> {
-        return Observable.create((observer: Observer<WeatherStation[]>) => {
-            req.post('https://api.netatmo.com/oauth2/token', {
-                headers: {
-                    'Content-Type': `application/json`,
-                },
-                body: JSON.stringify({
-                    grant_type: 'refresh_token',
-                    refresh_token: this.refreshToken,
-                    client_id: this.config.weather.clientId,
-                    client_secret: this.config.weather.clientSecret,
-                }),
-            }, (error, response, resp) => {
+        return RxHR.post(`https://api.netatmo.com/api/getpublicdata`, {
+            json: true,
+            body: {
+                grant_type: 'refresh_token',
+                refresh_token: this.refreshToken,
+                client_id: this.config.weather.clientId,
+                client_secret: this.config.weather.clientSecret,
+            }
+        }).pipe(
+            map((resp: any) => {
+                const body = resp.body;
+
                 if (this.config.log) {
-                    console.log(`Netatmo refreshAuth response`, error, resp);
+                    console.log(`Netatmo refreshAuth response`, body);
                 }
 
-                if (error) {
-                    observer.error(error);
-                    observer.complete();
-                    return;
-                }
-
-                const body = JSON.parse(resp);
                 this.token = body.access_token;
                 this.refreshToken = body.refresh_token;
 
@@ -204,10 +183,9 @@ export class NetatmoApi {
                     }, body.expires_in * 1000);
                 }
 
-                observer.next(body);
-                observer.complete();
-            });
-        });
+                return body;
+            })
+        );
     }
 
 }
