@@ -41,15 +41,15 @@ export class ComponentsFactory {
 
                     let component: Component;
                     switch (rawComponent.loxoneType) {
-                        // case 'Switch':
-                        //     component = new SwitchComponent(rawComponent, this.loxoneRequest, this.statesEvents);
-                        //     break;
-                        // case 'EIBDimmer':
-                        //     component = new LightComponent(rawComponent, this.loxoneRequest, this.statesEvents);
-                        //     break;
-                        // case 'Jalousie':
-                        //     component = new BlindComponent(rawComponent, this.loxoneRequest, this.statesEvents);
-                        //     break;
+                        case 'Switch':
+                            component = new SwitchComponent(rawComponent, this.loxoneRequest, this.statesEvents);
+                            break;
+                        case 'EIBDimmer':
+                            component = new LightComponent(rawComponent, this.loxoneRequest, this.statesEvents);
+                            break;
+                        case 'Jalousie':
+                            component = new BlindComponent(rawComponent, this.loxoneRequest, this.statesEvents);
+                            break;
                         case 'IRoomControllerV2':
                             component = new TemperatureComponent(rawComponent, this.loxoneRequest, this.statesEvents);
                             break;
