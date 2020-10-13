@@ -11,7 +11,7 @@ export class Notifier {
 
     constructor(config: Config) {
         this.config = config;
-        this.devices = config.notifier.devices;
+        this.devices = config?.notifier?.devices;
     }
 
     public handler(request: Request): Observable<any> {

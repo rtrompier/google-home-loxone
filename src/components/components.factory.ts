@@ -1,4 +1,3 @@
-import { RxHR } from '@akanass/rx-http-request';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/internal/Subject';
 import { map } from 'rxjs/operators';
@@ -7,7 +6,6 @@ import { LoxoneRequest } from '../loxone-request';
 import { BlindComponent } from './blind';
 import { Component } from './component';
 import { LightComponent } from './light';
-import { OpenCloseSensorComponent } from './openclose-sensor';
 import { SwitchComponent } from './switch';
 import { TemperatureComponent } from './temperature';
 
@@ -24,19 +22,21 @@ export class ComponentsFactory {
     }
 
     init(): Observable<{ [key: string]: Component }> {
-        return RxHR.post(`http://${this.config.loxone.user}:${this.config.loxone.password}@${this.config.loxone.url}/data/LoxApp3.json`, {
-            json: true
-        }).pipe(
-            map((resp: any) => {
-                const body = resp.body;
+        return this.loxoneRequest.sync().pipe(
+            map((body: any) => {
                 for (const controlId in body.controls) {
-                    const roomId = body?.controls[controlId]?.room;
+                    if (!body.controls.hasOwnProperty(controlId)) {
+                        continue;
+                    }
+
+                    const control = body?.controls[controlId]
+                    const roomId = control?.room;
                     const rawComponent: ComponentRaw = {
                         id: controlId,
-                        loxoneType: body.controls[controlId].type,
-                        name: body.controls[controlId].name,
-                        room: roomId ? body.rooms[roomId].name : 'Unknow',
-                        type: this.extractType(body.controls[controlId].type),
+                        loxoneType: control?.type,
+                        name: control?.name,
+                        room: roomId ? body.rooms[roomId]?.name : 'Unknow',
+                        type: this.extractType(control?.type),
                     };
 
                     let component: Component;

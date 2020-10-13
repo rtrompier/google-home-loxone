@@ -1,6 +1,5 @@
 import { Observable, of, Subject } from 'rxjs/index';
 import { map } from 'rxjs/operators';
-import { Brightness, BrightnessHandler } from '../capabilities/brightness';
 import { CapabilityHandler } from '../capabilities/capability-handler';
 import { EndpointHealthHandler } from '../capabilities/endpoint-health';
 import { OnOff, OnOffHandler } from '../capabilities/on-off';

@@ -1,3 +1,4 @@
+import { RxHR } from '@akanass/rx-http-request';
 import { Observable, of, Subject } from 'rxjs/index';
 import { map } from 'rxjs/operators';
 import { Config } from './config';
@@ -42,6 +43,21 @@ export class LoxoneRequest {
                 }
             }
         })
+    }
+
+    sync(): Observable<any> {
+        let url = `http://`;
+        if (this.config.loxone.user && this.config.loxone.password) {
+            url += `${this.config.loxone.user}:${this.config.loxone.password}@`;
+        }
+        url += `${this.config.loxone.url}/data/LoxApp3.json`;
+        if (this.config.log) {
+            console.log('Loxone autodiscover on ', url);
+        }
+
+        return RxHR.post(url, {
+            json: true
+        }).pipe(map((resp: any) => resp.body));
     }
 
     watchComponent(uuid: string): Observable<any> {

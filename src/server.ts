@@ -2,6 +2,8 @@ import * as bodyParser from 'body-parser';
 import express, { Express } from 'express';
 import { Request, Response } from 'express-serve-static-core';
 import { readFileSync } from 'fs';
+import { Http2SecureServer } from 'http2';
+import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/internal/Subject';
 import { Auth0 } from './auth';
 import { Component } from './components/component';
@@ -14,6 +16,7 @@ import { Weather } from './weather/weather';
 
 export class Server {
     public app: Express;
+    public server: any;
     private smartHome: GoogleSmartHome;
     private notifier: Notifier;
     private weather: Weather;
@@ -21,7 +24,7 @@ export class Server {
     private readonly config: Config;
     private readonly jwtConfig: Config;
 
-    constructor(argv: any) {
+    constructor(argv: any, callback?: () => any) {
         this.jwtConfig = JSON.parse(readFileSync(argv.jwt, 'utf-8'));
         this.config = JSON.parse(readFileSync(argv.config, 'utf-8'));
         if (argv.verbose) {
@@ -29,7 +32,12 @@ export class Server {
         }
 
         this.app = express();
-        this.init(argv.port);
+        this.app.use(bodyParser.json());
+        this.app.use(bodyParser.urlencoded({ extended: true }));
+        this.app.use((err, req, res, next) => {
+            err.status = 404;
+            next(err);
+        });
 
         const statesEvents = new Subject<Component>();
         const loxoneRequest = new LoxoneRequest(this.config);
@@ -39,17 +47,29 @@ export class Server {
         this.weather = new Weather(this.config);
 
         this.routes();
+        this.init(argv.port).subscribe(() => {
+            console.log('Server initialized');
+            if (callback) {
+                callback();
+            }
+        });
     }
 
-    init(port) {
-        this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({ extended: true }));
-        this.app.use((err, req, res, next) => {
-            err.status = 404;
-            next(err);
-        });
-        this.app.listen(port, () => {
-            console.log('Smart Home Cloud and App listening at %s:%s', `http://localhost`, port);
+    init(port): Observable<any> {
+        return new Observable((subscriber) => {
+            this.server = this.app.listen(port, () => {
+                console.log('Smart Home Cloud and App listening at %s:%s', `http://localhost`, port);
+                this.smartHome.init().subscribe(() => {
+                    console.log('init sucessfull');
+                    subscriber.next();
+                    subscriber.complete();
+                }, (err) => {
+                    console.error('Error while init', err);
+                    subscriber.error(err);
+                    subscriber.complete();
+                })
+            })
+
         })
     }
 
@@ -58,6 +78,10 @@ export class Server {
 
         router.post('/smarthome', (request: Request, response: Response) => {
             const data = request.body;
+
+            if (this.config.log) {
+                console.log('Request received', data);
+            }
 
             this.smartHome.handler(data, request).subscribe(result => {
                 if (this.config.log) {

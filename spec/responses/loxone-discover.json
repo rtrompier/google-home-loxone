@@ -1,0 +1,145 @@
+{
+    "rooms": {
+        "103defc1-0316-08d5-ffff0be037a23d47": {
+            "uuid": "103defc1-0316-08d5-ffff0be037a23d47",
+            "name": "Room 1",
+            "image": "00000000-0000-0008-2100000000000000.svg",
+            "defaultRating": 0,
+            "isFavorite": true,
+            "type": 4
+        },
+        "10f4a893-008c-2088-ffff0be037a23d47": {
+            "uuid": "10f4a893-008c-2088-ffff0be037a23d47",
+            "name": "Room 2",
+            "image": "00000000-0000-0008-2100000000000000.svg",
+            "defaultRating": 0,
+            "isFavorite": false,
+            "type": 1
+        }
+    },
+    "controls": {
+        "10f5096d-0338-13c2-ffffd75a488e408a": {
+            "name": "Switch 1",
+            "type": "Switch",
+            "uuidAction": "10f5096d-0338-13c2-ffffd75a488e408a",
+            "room": "10f50a12-0003-57ca-ffff0be037a23d47",
+            "cat": "103defc1-02e7-078d-ffff0be037a23d47",
+            "defaultRating": 0,
+            "isFavorite": false,
+            "isSecured": false,
+            "states": {
+                "active": "10f5096d-0338-13c9-ffffd75a488e408a"
+            }
+        },
+        "11f4e162-010a-457d-ffff0be037a23d47": {
+            "name": "Volet",
+            "type": "Jalousie",
+            "uuidAction": "11f4e162-010a-457d-ffff0be037a23d47",
+            "room": "10f4a880-03ae-2086-ffff0be037a23d47",
+            "cat": "103defc1-02e7-0791-ffff0be037a23d47",
+            "defaultRating": 0,
+            "isFavorite": false,
+            "isSecured": false,
+            "details": {
+                "isAutomatic": true,
+                "animation": 1
+            },
+            "states": {
+                "infoText": "1284803e-02a7-ab93-ffff0be037a23d47",
+                "up": "11f4e162-010a-4575-ffffcb7e425338b2",
+                "down": "11f4e162-010a-4576-ffffcb7e425338b2",
+                "position": "11f4e162-010a-4577-ffffcb7e425338b2",
+                "shadePosition": "11f4e162-010a-4578-ffffcb7e425338b2",
+                "safetyActive": "11f4e162-010a-457a-ffffcb7e425338b2",
+                "autoAllowed": "11f4e162-010a-4556-ffffcb7e425338b2",
+                "autoActive": "11f4e162-010a-4579-ffffcb7e425338b2",
+                "locked": "11f4e162-010a-457b-ffffcb7e425338b2",
+                "autoInfoText": "1284803e-02a7-ab94-ffff0be037a23d47",
+                "autoState": "1284803e-02a7-ab95-ffff0be037a23d47"
+            }
+        },
+        "12120c85-004b-4d55-fffffdd4e0772c8f": {
+            "name": "Controleur Chambre 2",
+            "type": "IRoomControllerV2",
+            "uuidAction": "12120c85-004b-4d55-fffffdd4e0772c8f",
+            "room": "10f4a880-03ae-2086-ffff0be037a23d47",
+            "cat": "103defc1-02e7-07a9-ffff0be037a23d47",
+            "defaultRating": 0,
+            "isFavorite": false,
+            "isSecured": false,
+            "details": {
+                "timerModes": [
+                    {
+                        "name": "Présent",
+                        "description": "Mode confort",
+                        "id": 1
+                    },
+                    {
+                        "name": "Absent",
+                        "description": "Mode éco",
+                        "id": 0
+                    },
+                    {
+                        "name": "Arrêt",
+                        "description": "Température de consigne : Surchauffe en mode refroidissement, hors gel en mode chauffage. Change lors des changement de période.",
+                        "id": 2
+                    }
+                ],
+                "format": "%.1f°",
+                "connectedInputs": 0
+            },
+            "states": {
+                "tempActual": "125c8300-00e7-4b96-ffff355e276e6219",
+                "tempTarget": "125c8300-00e7-4bba-ffff355e276e6219",
+                "comfortTemperature": "125c8300-00e7-4b9e-ffff355e276e6219",
+                "comfortTolerance": "125c8300-00e7-4b9f-ffff355e276e6219",
+                "absentMinOffset": "125c8300-00e7-4ba0-ffff355e276e6219",
+                "absentMaxOffset": "125c8300-00e7-4ba1-ffff355e276e6219",
+                "frostProtectTemperature": "125c8300-00e7-4ba2-ffff355e276e6219",
+                "heatProtectTemperature": "125c8300-00e7-4ba3-ffff355e276e6219",
+                "activeMode": "1473abd3-0135-b343-fffffdd4e0772c8f",
+                "comfortTemperatureOffset": "1473abd3-0135-b33e-fffffdd4e0772c8f",
+                "overrideEntries": "1473abd3-0135-b33f-fffffdd4e0772c8f",
+                "prepareState": "1473abd3-0135-b340-fffffdd4e0772c8f",
+                "useOutdoor": "1473abd3-0135-b341-fffffdd4e0772c8f",
+                "operatingMode": "1473abd3-0135-b344-fffffdd4e0772c8f",
+                "overrideReason": "1473abd3-0135-b346-fffffdd4e0772c8f",
+                "openWindow": "125c8300-00e7-4b97-ffff355e276e6219",
+                "modeList": "1473abd3-0135-b345-fffffdd4e0772c8f"
+            },
+            "subControls": {
+                "1474276e-0247-2b3b-ffff76cee2427d27": {
+                    "name": "Heating and Cooling",
+                    "type": "IRCV2Daytimer",
+                    "uuidAction": "1474276e-0247-2b3b-ffff76cee2427d27",
+                    "defaultRating": 0,
+                    "isFavorite": false,
+                    "isSecured": false,
+                    "details": {
+                        "analog": true,
+                        "format": "%.1f°"
+                    },
+                    "states": {
+                        "entriesAndDefaultValue": "1474276e-0247-2b3b-ffff76cee2427d27",
+                        "mode": "125c8300-00e7-4bbb-ffff355e276e6219",
+                        "modeList": "1473abd3-0135-b345-fffffdd4e0772c8f",
+                        "value": "1473abd3-0135-b343-fffffdd4e0772c8f"
+                    }
+                }
+            }
+        },
+        "10f4ff00-0155-692f-ffff6322d0f91668": {
+            "name": "Plafond",
+            "type": "EIBDimmer",
+            "uuidAction": "10f4ff00-0155-692f-ffff6322d0f91668",
+            "room": "10f4fbeb-0306-5af6-ffff0be037a23d47",
+            "cat": "103defc1-02e7-078d-ffff0be037a23d47",
+            "defaultRating": 10,
+            "isFavorite": true,
+            "isSecured": false,
+            "states": {
+                "position": "10f4ff00-0155-693c-ffff6322d0f91668"
+            }
+        }
+    }
+}

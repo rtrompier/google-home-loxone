@@ -82,7 +82,7 @@ export class BlindComponent extends Component implements OpenClose {
                 'UP',
                 'DOWN'
             ],
-            queryOnlyOpenClose: true,
+            queryOnlyOpenClose: false,
         };
     }
 
