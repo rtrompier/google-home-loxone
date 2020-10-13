@@ -1,5 +1,5 @@
 import { Observable, of, Subject } from 'rxjs/index';
-import { map } from 'rxjs/internal/operators';
+import { map, switchMap, switchMapTo } from 'rxjs/internal/operators';
 import { CapabilityHandler } from '../capabilities/capability-handler';
 import { EndpointHealthHandler } from '../capabilities/endpoint-health';
 import { OpenClose, OpenCloseAttributes, OpenCloseHandler } from '../capabilities/open-close';
@@ -39,33 +39,45 @@ export class BlindComponent extends Component implements OpenClose {
     }
 
     open(): Observable<boolean> {
-        if (this.stateUp || this.stateDown) {
-            return this.stop();
-        }
-
-        return this.loxoneRequest.sendCmd(this.loxoneId, 'FullUp').pipe(map(result => {
-            if (result.code === '200') {
-                this.stateUp = true;
-                this.statePos = 100;
-                return true;
-            }
-            throw new Error(ErrorType.ENDPOINT_UNREACHABLE);
-        }));
+        return of(true)
+            .pipe(
+                switchMap(() => {
+                    if (this.stateUp || this.stateDown) {
+                        return this.stop();
+                    }
+                    return of(true);
+                }),
+                switchMap(() => this.loxoneRequest.sendCmd(this.loxoneId, 'FullUp')),
+                map(result => {
+                    if (result.code === '200') {
+                        this.stateUp = true;
+                        this.statePos = 100;
+                        return true;
+                    }
+                    throw new Error(ErrorType.ENDPOINT_UNREACHABLE);
+                })
+            )
     }
 
     close(): Observable<boolean> {
-        if (this.stateUp || this.stateDown) {
-            return this.stop();
-        }
-
-        return this.loxoneRequest.sendCmd(this.loxoneId, 'FullDown').pipe(map(result => {
-            if (result.code === '200') {
-                this.stateDown = true;
-                this.statePos = 0;
-                return true;
-            }
-            throw new Error(ErrorType.ENDPOINT_UNREACHABLE);
-        }));
+        return of(true)
+            .pipe(
+                switchMap(() => {
+                    if (this.stateUp || this.stateDown) {
+                        return this.stop();
+                    }
+                    return of(true);
+                }),
+                switchMap(() => this.loxoneRequest.sendCmd(this.loxoneId, 'FullDown')),
+                map(result => {
+                    if (result.code === '200') {
+                        this.stateDown = true;
+                        this.statePos = 0;
+                        return true;
+                    }
+                    throw new Error(ErrorType.ENDPOINT_UNREACHABLE);
+                })
+            );
     }
 
     getPosition(): Observable<number> {
@@ -87,16 +99,22 @@ export class BlindComponent extends Component implements OpenClose {
     }
 
     setPosition(percent: number): Observable<boolean> {
-        if (this.stateUp || this.stateDown) {
-            return this.stop();
-        }
-
-        return this.loxoneRequest.sendCmd(this.loxoneId, `ManualPosition/${percent}`).pipe(map(result => {
-            if (result.code === '200') {
-                return true;
-            }
-            throw new Error(ErrorType.ENDPOINT_UNREACHABLE);
-        }));
+        return of(true)
+            .pipe(
+                switchMap(() => {
+                    if (this.stateUp || this.stateDown) {
+                        return this.stop();
+                    }
+                    return of(true);
+                }),
+                switchMap(() => this.loxoneRequest.sendCmd(this.loxoneId, `ManualPosition/${percent}`)),
+                map(result => {
+                    if (result.code === '200') {
+                        return true;
+                    }
+                    throw new Error(ErrorType.ENDPOINT_UNREACHABLE);
+                }),
+            );
     }
 
     protected stop(): Observable<boolean> {
