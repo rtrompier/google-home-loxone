@@ -15,6 +15,7 @@ We suggest to use the free oauth 2.0 server : OAuth0
 ### Create an Actions on Google developer project
 
 1. Use your Oauth0 App ClientId et ClientSecret, created before, in the Account Linking Section
+![Account Linking](readme/account-linking.png?raw=true "Account Linking")
 1. In the Fulfillment section, use the **google-home-loxone** url (Eg : http://YOUR_IP:3000/smarthome). It must be accessible from the cloud.
 
 
