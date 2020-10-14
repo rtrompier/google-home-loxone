@@ -45,5 +45,8 @@
     },
     "author": "rtrompier",
     "license": "MIT",
-    "preferGlobal": true
+    "preferGlobal": true,
+    "publishConfig": {
+        "access": "public"
+    }
 }

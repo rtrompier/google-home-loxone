@@ -8,7 +8,7 @@ notifications:
     on_failure: always
     on_success: never
 node_js:
-- '8'
+- '14'
 branches:
   only:
   - master
@@ -16,3 +16,9 @@ before_install:
 - sudo apt-get install libavahi-compat-libdnssd-dev
 script:
 - npm test
+deploy:
+  on:
+    branch: master
+  skip_cleanup: true
+  api_key:
+    secure: jUrdiByBzagRiAngc1LVafrwTAyuIvIoOILsOYt8Bnd/WGmoNUJvkzk2YhvGvlUDtfrNw6QahbKwLtbW5i257J5JA4tUAJMIA2DoKGpY6jHZ3E9OaX77sKs+mThhsJxCKBLwpJ4U4WYPCDVUGTHBPk8Wk0e+34rqemH1GeGos6Q3D/KVDGXxCIH1lBdgqSMu/6c9bttbkUfBGCP7MTMpRb/GUm5zENAhRhMxJflp1oY1wfhu1elakMRGhbIlx3rQfhKbEcvOj5xO4q1UNJwE+66kGGwa7N9lpv18HLySpx32HhsLCIWFQEmJJKbrieDXy+WY2PKjx1Sa2a8LYVid7VhuNmGLkt3u+6cgkDM/bCILQT6nbjCnlqFj5RAc+k/nbsQy6uj2vxhWd+L99XUyD1M+OQYOqH2xkhOumM7AeDtwVZyIIRF1Do2foopy4R1kf346o9jzL+4aAVO0cpLcEEUNoPdJBIkMW2zWtyVPPEV0VF/ncKJ/C57H10O8cRV4UpApQKLISihj8a11ZUwrIgsq0fmn7WaDl9+yDCTrVjlQUNU2BZe5dyivp3XIPKXCUPPItRAoY/vl10MZ9K3YTY2Ltqkk2CSOB5HJ4kCr6QMA3calDPqeEz+rT+dIR9Jnx2tsY0Bi8DO+PFmZXbUb//GuyW2Ur5E2PbNKNBzxO54=
