@@ -1,32 +1,12 @@
 {
     "loxone": {
-        "url": "http://miniserver:8080",
-        "user": "user",
-        "password": "password"
+        "url": "miniserver:8080"
     },
     "oAuthUrl": "https://xcid.eu.auth0.com",
     "authorizedEmails": [
         "user@xcid.fr"
     ],
     "agentUserId": "loxone-12345",
-    "token": "abcdefghijklmnop",
     "testMode": true,
-    "log": true,
-    "components": [
-        {
-            "id": "123",
-            "name": "salon",
-            "type": "LIGHT",
-            "loxoneType": "Light"
-        },
-        {
-            "id": "456",
-            "name": "salon",
-            "type": "LIGHT",
-            "loxoneType": "Light",
-            "extendedOption": {
-                "brigthness": true
-            }
-        }
-    ]
+    "log": true
 }

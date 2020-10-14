@@ -7,7 +7,7 @@ const config = require('./support/config_test.json');
 const loxoneDiscoverResponse = require('./responses/loxone-discover.json');
 let app = null;
 
-describe('Sync', () => {
+describe('Temperature', () => {
     beforeAll((done: DoneFn) => {
         const url = `http://${config.loxone.url}`;
 
@@ -26,36 +26,32 @@ describe('Sync', () => {
         app?.server?.close(done);
     });
 
-    it('should display two elements', (done: DoneFn) => {
+    it('should request the status of a temperature', (done: DoneFn) => {
         RxHR.post(`http://localhost:3000/smarthome`, {
             json: true,
             headers: {
                 Authorization: 'Bearer access-token-from-skill',
             },
             body: {
-                requestId: 'ff36a3cc-sync-1',
+                requestId: 'ff36a3cc-ec34-11e6-b1a0-64510650abcf',
                 inputs: [{
-                    intent: 'action.devices.SYNC'
+                    intent: 'action.devices.QUERY',
+                    payload: {
+                        devices: [
+                            {
+                                id: '12120c85-004b-4d55-fffffdd4e0772c8f'
+                            }
+                        ]
+                    }
                 }]
             }
         })
             .pipe(map((resp: any) => resp.body))
             .subscribe((resp) => {
-                expect(resp.payload.devices.length).toEqual(4);
-
-                expect(resp.payload.devices[0].id).toEqual('10f5096d-0338-13c2-ffffd75a488e408a');
-                expect(resp.payload.devices[0].type).toEqual('action.devices.types.LIGHT');
-
-                expect(resp.payload.devices[1].id).toEqual('11f4e162-010a-457d-ffff0be037a23d47');
-                expect(resp.payload.devices[1].type).toEqual('action.devices.types.BLINDS');
-
-                expect(resp.payload.devices[2].id).toEqual('12120c85-004b-4d55-fffffdd4e0772c8f');
-                expect(resp.payload.devices[2].type).toEqual('action.devices.types.THERMOSTAT');
-
-                expect(resp.payload.devices[3].id).toEqual('10f4ff00-0155-692f-ffff6322d0f91668');
-                expect(resp.payload.devices[3].type).toEqual('action.devices.types.LIGHT');
-
+                expect(resp.payload.devices['12120c85-004b-4d55-fffffdd4e0772c8f'].online).toBeTruthy();
+                // TODO : Test status
                 done();
             });
     });
+
 });

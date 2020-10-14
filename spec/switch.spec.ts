@@ -7,7 +7,7 @@ const config = require('./support/config_test.json');
 const loxoneDiscoverResponse = require('./responses/loxone-discover.json');
 let app = null;
 
-describe('Light', () => {
+describe('Swtich', () => {
     beforeAll((done: DoneFn) => {
         const url = `http://${config.loxone.url}`;
 
@@ -26,7 +26,7 @@ describe('Light', () => {
         app?.server?.close(done);
     });
 
-    it('should request the status of a light', (done: DoneFn) => {
+    it('should request the status of a switch', (done: DoneFn) => {
         RxHR.post(`http://localhost:3000/smarthome`, {
             json: true,
             headers: {
@@ -39,7 +39,7 @@ describe('Light', () => {
                     payload: {
                         devices: [
                             {
-                                id: '10f4ff00-0155-692f-ffff6322d0f91668'
+                                id: '10f5096d-0338-13c2-ffffd75a488e408a'
                             }
                         ]
                     }
@@ -48,13 +48,13 @@ describe('Light', () => {
         })
             .pipe(map((resp: any) => resp.body))
             .subscribe((resp) => {
-                expect(resp.payload.devices['10f4ff00-0155-692f-ffff6322d0f91668'].online).toBeTruthy();
+                expect(resp.payload.devices['10f5096d-0338-13c2-ffffd75a488e408a'].online).toBeTruthy();
                 // TODO : Test status on / off
                 done();
             });
     });
 
-    it('should turn on a light', (done: DoneFn) => {
+    it('should turn on a switch', (done: DoneFn) => {
         RxHR.post(`http://localhost:3000/smarthome`, {
             json: true,
             headers: {
@@ -67,7 +67,7 @@ describe('Light', () => {
                     payload: {
                         commands: [{
                             devices: [{
-                                id: '10f4ff00-0155-692f-ffff6322d0f91668'
+                                id: '10f5096d-0338-13c2-ffffd75a488e408a'
                             }],
                             execution: [{
                                 command: 'action.devices.commands.OnOff',
@@ -88,7 +88,7 @@ describe('Light', () => {
             });
     });
 
-    it('should turn off a light', (done: DoneFn) => {
+    it('should turn off a switch', (done: DoneFn) => {
         RxHR.post(`http://localhost:3000/smarthome`, {
             json: true,
             headers: {
@@ -101,7 +101,7 @@ describe('Light', () => {
                     payload: {
                         commands: [{
                             devices: [{
-                                id: '10f4ff00-0155-692f-ffff6322d0f91668'
+                                id: '10f5096d-0338-13c2-ffffd75a488e408a'
                             }],
                             execution: [{
                                 command: 'action.devices.commands.OnOff',
@@ -118,40 +118,6 @@ describe('Light', () => {
             .subscribe((resp) => {
                 expect(resp.payload.commands[0].states.online).toBeTruthy();
                 expect(resp.payload.commands[0].states.on).toBeFalse();
-                done();
-            });
-    });
-
-    it('should turn on a light with brigthness', (done: DoneFn) => {
-        RxHR.post(`http://localhost:3000/smarthome`, {
-            json: true,
-            headers: {
-                Authorization: 'Bearer access-token-from-skill',
-            },
-            body: {
-                requestId: 'ff36a3cc-ec34-11e6-b1a0-64510650abcf',
-                inputs: [{
-                    intent: 'action.devices.EXECUTE',
-                    payload: {
-                        commands: [{
-                            devices: [{
-                                id: '10f4ff00-0155-692f-ffff6322d0f91668'
-                            }],
-                            execution: [{
-                                command: 'action.devices.commands.BrightnessAbsolute',
-                                params: {
-                                    brightness: 60
-                                }
-                            }]
-                        }]
-                    }
-                }]
-            }
-        })
-            .pipe(map((resp: any) => resp.body))
-            .subscribe((resp) => {
-                expect(resp.payload.commands[0].states.online).toBeTruthy();
-                expect(resp.payload.commands[0].states.brightness).toEqual(60);
                 done();
             });
     });

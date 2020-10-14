@@ -7,7 +7,7 @@ const config = require('./support/config_test.json');
 const loxoneDiscoverResponse = require('./responses/loxone-discover.json');
 let app = null;
 
-describe('Light', () => {
+describe('Jalousie', () => {
     beforeAll((done: DoneFn) => {
         const url = `http://${config.loxone.url}`;
 
@@ -26,7 +26,7 @@ describe('Light', () => {
         app?.server?.close(done);
     });
 
-    it('should request the status of a light', (done: DoneFn) => {
+    it('should request the status of a jalousie', (done: DoneFn) => {
         RxHR.post(`http://localhost:3000/smarthome`, {
             json: true,
             headers: {
@@ -39,7 +39,7 @@ describe('Light', () => {
                     payload: {
                         devices: [
                             {
-                                id: '10f4ff00-0155-692f-ffff6322d0f91668'
+                                id: '11f4e162-010a-457d-ffff0be037a23d47'
                             }
                         ]
                     }
@@ -48,13 +48,13 @@ describe('Light', () => {
         })
             .pipe(map((resp: any) => resp.body))
             .subscribe((resp) => {
-                expect(resp.payload.devices['10f4ff00-0155-692f-ffff6322d0f91668'].online).toBeTruthy();
-                // TODO : Test status on / off
+                expect(resp.payload.devices['11f4e162-010a-457d-ffff0be037a23d47'].online).toBeTruthy();
+                // TODO : Test status
                 done();
             });
     });
 
-    it('should turn on a light', (done: DoneFn) => {
+    it('should open a jalousie', (done: DoneFn) => {
         RxHR.post(`http://localhost:3000/smarthome`, {
             json: true,
             headers: {
@@ -67,12 +67,12 @@ describe('Light', () => {
                     payload: {
                         commands: [{
                             devices: [{
-                                id: '10f4ff00-0155-692f-ffff6322d0f91668'
+                                id: '11f4e162-010a-457d-ffff0be037a23d47'
                             }],
                             execution: [{
-                                command: 'action.devices.commands.OnOff',
+                                command: 'action.devices.commands.OpenClose',
                                 params: {
-                                    on: true
+                                    openPercent: 100
                                 }
                             }]
                         }]
@@ -83,12 +83,13 @@ describe('Light', () => {
             .pipe(map((resp: any) => resp.body))
             .subscribe((resp) => {
                 expect(resp.payload.commands[0].states.online).toBeTruthy();
-                expect(resp.payload.commands[0].states.on).toBeTruthy();
+                expect(resp.payload.commands[0].states.openState[0].openPercent).toEqual(100);
+                expect(resp.payload.commands[0].states.openState[0].openDirection).toEqual('UP');
                 done();
             });
     });
 
-    it('should turn off a light', (done: DoneFn) => {
+    it('should close a jalousie', (done: DoneFn) => {
         RxHR.post(`http://localhost:3000/smarthome`, {
             json: true,
             headers: {
@@ -101,12 +102,12 @@ describe('Light', () => {
                     payload: {
                         commands: [{
                             devices: [{
-                                id: '10f4ff00-0155-692f-ffff6322d0f91668'
+                                id: '11f4e162-010a-457d-ffff0be037a23d47'
                             }],
                             execution: [{
-                                command: 'action.devices.commands.OnOff',
+                                command: 'action.devices.commands.OpenClose',
                                 params: {
-                                    on: false
+                                    openPercent: 0
                                 }
                             }]
                         }]
@@ -117,42 +118,10 @@ describe('Light', () => {
             .pipe(map((resp: any) => resp.body))
             .subscribe((resp) => {
                 expect(resp.payload.commands[0].states.online).toBeTruthy();
-                expect(resp.payload.commands[0].states.on).toBeFalse();
+                expect(resp.payload.commands[0].states.openState[0].openPercent).toEqual(0);
+                expect(resp.payload.commands[0].states.openState[0].openDirection).toEqual('DOWN');
                 done();
             });
     });
 
-    it('should turn on a light with brigthness', (done: DoneFn) => {
-        RxHR.post(`http://localhost:3000/smarthome`, {
-            json: true,
-            headers: {
-                Authorization: 'Bearer access-token-from-skill',
-            },
-            body: {
-                requestId: 'ff36a3cc-ec34-11e6-b1a0-64510650abcf',
-                inputs: [{
-                    intent: 'action.devices.EXECUTE',
-                    payload: {
-                        commands: [{
-                            devices: [{
-                                id: '10f4ff00-0155-692f-ffff6322d0f91668'
-                            }],
-                            execution: [{
-                                command: 'action.devices.commands.BrightnessAbsolute',
-                                params: {
-                                    brightness: 60
-                                }
-                            }]
-                        }]
-                    }
-                }]
-            }
-        })
-            .pipe(map((resp: any) => resp.body))
-            .subscribe((resp) => {
-                expect(resp.payload.commands[0].states.online).toBeTruthy();
-                expect(resp.payload.commands[0].states.brightness).toEqual(60);
-                done();
-            });
-    });
 });

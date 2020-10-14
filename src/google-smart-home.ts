@@ -12,7 +12,7 @@ import {
 } from 'actions-on-google/dist/service/smarthome/api/v1';
 import { Request } from 'express-serve-static-core';
 import { from, interval, Observable, of } from 'rxjs';
-import { buffer, catchError, filter, flatMap, map, mergeMap, toArray } from 'rxjs/operators';
+import { buffer, catchError, filter, flatMap, map, mergeMap, tap, toArray } from 'rxjs/operators';
 import { Auth0 } from './auth';
 import { Handlers } from './capabilities/capability-handler';
 import { Component } from './components/component';
@@ -23,29 +23,40 @@ const uuid = require('uuid');
 
 export class GoogleSmartHome {
     private readonly config: Config;
+    private readonly jwtConfig: any;
     private readonly auth: Auth0;
     private readonly components: ComponentsFactory;
+    private readonly statesEvents: Observable<Component>;
     private readonly handlers: Handlers;
-    private readonly smarthomeApp: SmartHomeApp;
+    private smarthomeApp: SmartHomeApp;
 
     constructor(config: Config, components: ComponentsFactory, auth: Auth0,
         statesEvents: Observable<Component>, jwtConfig: any) {
 
         this.config = config;
+        this.jwtConfig = jwtConfig;
         this.auth = auth;
         this.handlers = new Handlers();
         this.components = components;
+        this.statesEvents = statesEvents;
+    }
 
-        this.smarthomeApp = smarthome({
-            jwt: jwtConfig,
-            key: this.config.token
-        });
+    init(): Observable<any> {
+        // Wait for loxone autodetection before sync
+        return this.components.init()
+            .pipe(tap(() => {
+                this.smarthomeApp = smarthome({
+                    jwt: this.jwtConfig
+                });
 
-        this.smarthomeApp.requestSync(this.config.agentUserId)
-            .then(result => console.log('Sync OK', result))
-            .catch(error => console.log('Sync NOK', error));
+                if (!this.config.testMode) {
+                    this.smarthomeApp.requestSync(this.config.agentUserId)
+                        .then(result => console.log('Sync OK'))
+                        .catch(error => console.log('Sync NOK', error));
+                }
 
-        this.subscribeStates(statesEvents);
+                this.subscribeStates(this.statesEvents);
+            }));
     }
 
     subscribeStates(statesEvents: Observable<Component>): void {
@@ -77,10 +88,9 @@ export class GoogleSmartHome {
                     }))
             })
         ).subscribe(state => {
-            console.log(JSON.stringify(state));
             this.smarthomeApp.reportState(state)
-                .then(result => console.log('State OK', result))
-                .catch(err => console.log('State NOK', err))
+                .then(result => console.log('State send'))
+                .catch(err => console.log('State not send', err))
         })
     }
 
@@ -129,6 +139,7 @@ export class GoogleSmartHome {
     sync(requestId: string): Observable<SmartHomeV1SyncResponse> {
         const devices = Object.values(this.components.getComponent())
             .map(component => component.getSync());
+        console.log('start sync request');
 
         return of({
             requestId: requestId,

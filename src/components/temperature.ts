@@ -11,9 +11,17 @@ export class TemperatureComponent extends Component implements TemperatureSettin
   constructor(rawComponent: ComponentRaw, loxoneRequest: LoxoneRequest, statesEvents: Subject<Component>) {
     super(rawComponent, loxoneRequest, statesEvents);
 
-    this.loxoneRequest.watchComponent(this.loxoneId).subscribe(event => {
-      this.temperatureState.thermostatTemperatureAmbient = parseInt(event, 10);
-    })
+    this.loxoneRequest.getControlInformation(this.loxoneId).subscribe(temperature => {
+        // Subscribe on active status update of the current switch
+        this.loxoneRequest.watchComponent(temperature.states.tempActual).subscribe((event) => {
+            this.temperatureState.thermostatTemperatureAmbient = parseInt(event, 10);
+            this.statesEvents.next(this);
+        });
+        this.loxoneRequest.watchComponent(temperature.states.tempTarget).subscribe((event) => {
+            this.temperatureState.thermostatTemperatureSetpoint = parseInt(event, 10);
+            this.statesEvents.next(this);
+        });
+    });
   }
 
   getCapabilities(): CapabilityHandler<any>[] {
