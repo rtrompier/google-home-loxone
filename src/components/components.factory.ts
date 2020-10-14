@@ -57,14 +57,10 @@ export class ComponentsFactory {
                         //     component = new OpenCloseSensorComponent(rawComponent, this.loxoneRequest, this.statesEvents);
                         //     break;
 
-                        // case 'Door':
-                        //     component = new DoorComponent(rawComponent, loxoneRequest, statesEvents);
-                        //     break;
-                        // case 'Pool':
-                        //     component = new PoolComponent(rawComponent, loxoneRequest, statesEvents);
-                        //     break;
                         default:
-                        // console.log(`Type [${rawComponent.loxoneType}] not yet supported`);
+                            if (this.config.log) {
+                                console.log(`Type [${rawComponent.loxoneType}] not yet supported`);
+                            }
                     }
 
                     if (component != null) {
@@ -85,7 +81,7 @@ export class ComponentsFactory {
     private extractType(loxoneType: string): 'LIGHT' | 'THERMOSTAT' | 'BLINDS' | 'SWITCH' | 'SENSOR' {
         switch (loxoneType) {
             case 'Switch':
-                return 'SWITCH';
+                return 'LIGHT';
             case 'EIBDimmer':
                 return 'LIGHT';
             case 'Jalousie':

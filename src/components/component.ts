@@ -24,7 +24,7 @@ export abstract class Component implements EndpointHealth {
         this.name = rawComponent.name;
         this.type = rawComponent.type;
         this.room = rawComponent.room;
-        this.loxoneId = rawComponent.loxoneId || rawComponent.id;
+        this.loxoneId = rawComponent.id;
         this.statesEvents = statesEvents;
     }
 

@@ -80,7 +80,7 @@ export class Server {
             const data = request.body;
 
             if (this.config.log) {
-                console.log('Request received', data);
+                console.log('Smarthome request received', JSON.stringify(data, null, 4));
             }
 
             this.smartHome.handler(data, request).subscribe(result => {

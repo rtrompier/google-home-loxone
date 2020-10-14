@@ -19,14 +19,17 @@ export class BlindComponent extends Component implements OpenClose {
         this.loxoneRequest.getControlInformation(this.loxoneId).subscribe(jalousie => {
             this.loxoneRequest.watchComponent(jalousie['states']['position']).subscribe(event => {
                 this.statePos = (1 - event) * 100;
+                this.statesEvents.next(this);
             });
 
             this.loxoneRequest.watchComponent(jalousie['states']['up']).subscribe(event => {
                 this.stateUp = event;
+                this.statesEvents.next(this);
             });
 
             this.loxoneRequest.watchComponent(jalousie['states']['down']).subscribe(event => {
                 this.stateDown = event;
+                this.statesEvents.next(this);
             });
         });
     }
@@ -109,6 +112,7 @@ export class BlindComponent extends Component implements OpenClose {
                 }),
                 switchMap(() => this.loxoneRequest.sendCmd(this.loxoneId, `ManualPosition/${percent}`)),
                 map(result => {
+                    console.log('loxone resp', result);
                     if (result.code === '200') {
                         return true;
                     }

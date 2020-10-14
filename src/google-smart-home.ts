@@ -51,7 +51,7 @@ export class GoogleSmartHome {
 
                 if (!this.config.testMode) {
                     this.smarthomeApp.requestSync(this.config.agentUserId)
-                        .then(result => console.log('Sync OK', result))
+                        .then(result => console.log('Sync OK'))
                         .catch(error => console.log('Sync NOK', error));
                 }
 
@@ -89,8 +89,8 @@ export class GoogleSmartHome {
             })
         ).subscribe(state => {
             this.smarthomeApp.reportState(state)
-                .then(result => console.log('State OK', result))
-                .catch(err => console.log('State NOK', err))
+                .then(result => console.log('State send'))
+                .catch(err => console.log('State not send', err))
         })
     }
 
