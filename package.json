@@ -1,6 +1,6 @@
 {
     "name": "google-home-loxone",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Bridge for Google Home and Loxone",
     "main": "index.js",
     "bin": {
