@@ -16,12 +16,13 @@ before_install:
 - sudo apt-get install libavahi-compat-libdnssd-dev
 script:
 - npm test
+- npm run build
 deploy:
   provider: npm
   email: remy.trompier@gmail.com
   api_key:
     secure: RE2KAuf0Zgb0y5lSa54rEuDWPHzV7VngLV/clnFO2TvRtuxmauGbuBCCc35GZ5rzCNpP1TCmwHHxDMrH2EAhMhpMHLliztB2Uy5PwfSNsh2YEe/toWusaieZmlxmTelxYWyB6czxuf0O3am5+J3v11uRlFfULMDe9VPYKKHtPdOGwAM+cYqqYDHT6Z5LST5N6WsdQ9LDF7YHc2Lb+ABIl23WgAtsuXUSLJjM0pmqoI+QlW9yHPQq+25pRqzQLPS8oHb7nCzCfrAq/4U0ZF1BSxRX8pvDBhrpL+359pVicIRU/x9E7EEOkGvhqIR8wR7ndxAodAyDz/8cZdNXfa3ydP5TFngeJHnktNADo3KWZTXo01C6fNyPMlD8TFP6DLetM9jQG7lT1fCIX+9r2bH0QWwH9gJkuO4ZazTcT5GYTR8et0iRkP7gMDTM/+sQnuUVXJVVxz5k/SWKGCSFElM7US6U5eGGHhhM9hucVLYCVsWGtXOdsnmaY/WnW+M7BYqMBV0GN2/L3T44lUs0mL6BPZj+Qv4oCZ+rHEn1/Ob7e6OjMpw5L2R/Mp36jRHPvPLsg+J6PYSRsaW17yvvgLBR7rGSKd3netB40pwGar+WC5F0LrEXuxKK2aySe0odMKHulGU7D5ahLC/19xpL0Ph8BkT6ID6g/HFykuclSbIr7wM=
   on:
-    tags: true
+    branch: master
     repo: rtrompier/google-home-loxone
   skip_cleanup: 'true'

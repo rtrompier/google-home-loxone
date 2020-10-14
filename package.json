@@ -41,6 +41,7 @@
         "start:dev": "tsc-watch --onSuccess \"node ./dist/index.js\"",
         "start:prod": "tsc && pm2 start dist/index.js --name google-home-loxone",
         "stop": "pm2 stop google-home-loxone",
+        "build": "tsc",
         "test": "ts-node node_modules/jasmine/bin/jasmine \"./spec/**/*.spec.ts\""
     },
     "author": "rtrompier",

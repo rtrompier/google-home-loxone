@@ -4,9 +4,7 @@ node_modules
 *.iml
 *.zip
 
-**/*.d.ts
-**/*.js
-**/*.js.map
+dist
 
 jwt.json
 config.json
