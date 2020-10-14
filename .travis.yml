@@ -16,6 +16,7 @@ before_install:
 - sudo apt-get install libavahi-compat-libdnssd-dev
 script:
 - npm test
+- npm run build
 deploy:
   provider: npm
   email: remy.trompier@gmail.com
