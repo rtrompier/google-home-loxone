@@ -44,7 +44,7 @@ describe('Sync', () => {
                 expect(resp.payload.devices.length).toEqual(4);
 
                 expect(resp.payload.devices[0].id).toEqual('10f5096d-0338-13c2-ffffd75a488e408a');
-                expect(resp.payload.devices[0].type).toEqual('action.devices.types.SWITCH');
+                expect(resp.payload.devices[0].type).toEqual('action.devices.types.LIGHT');
 
                 expect(resp.payload.devices[1].id).toEqual('11f4e162-010a-457d-ffff0be037a23d47');
                 expect(resp.payload.devices[1].type).toEqual('action.devices.types.BLINDS');
