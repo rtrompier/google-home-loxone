@@ -40,11 +40,11 @@ done securely through [JWT (JSON web tokens)](https://jwt.io/).
 Install the plugin through npm or download the files from here.
 
 ```sh
-$ sudo npm install -g google-home-loxone
+$ sudo npm install -g google-home-loxone --unsafe-perm
 ```
 Or update to latest version when already installed:
 ```sh
-$ sudo npm update -g google-home-loxone
+$ sudo npm update -g google-home-loxone --unsafe-perm
 ```
 
 ### Configuration
