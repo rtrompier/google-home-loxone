@@ -14,6 +14,8 @@ branches:
   - master
 before_install:
 - sudo apt-get install libavahi-compat-libdnssd-dev
+install:
+- npm install
 script:
 - npm test
 - npm run build
