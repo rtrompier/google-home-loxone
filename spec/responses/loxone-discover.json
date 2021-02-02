@@ -140,6 +140,19 @@
             "states": {
                 "position": "10f4ff00-0155-693c-ffff6322d0f91668"
             }
+        },
+        "10f4ff00-0155-692f-ffff6322d0f91669": {
+            "name": "Dimmer",
+            "type": "Dimmer",
+            "uuidAction": "10f4ff00-0155-692f-ffff6322d0f91668",
+            "room": "10f4fbeb-0306-5af6-ffff0be037a23d47",
+            "cat": "103defc1-02e7-078d-ffff0be037a23d47",
+            "defaultRating": 10,
+            "isFavorite": true,
+            "isSecured": false,
+            "states": {
+                "position": "10f4ff00-0155-693c-ffff6322d0f91668"
+            }
         }
     }
 }

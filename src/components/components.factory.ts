@@ -47,6 +47,9 @@ export class ComponentsFactory {
                         case 'EIBDimmer':
                             component = new LightComponent(rawComponent, this.loxoneRequest, this.statesEvents);
                             break;
+                        case 'Dimmer':
+                            component = new LightComponent(rawComponent, this.loxoneRequest, this.statesEvents);
+                            break;
                         case 'Jalousie':
                             component = new BlindComponent(rawComponent, this.loxoneRequest, this.statesEvents);
                             break;
@@ -83,6 +86,8 @@ export class ComponentsFactory {
             case 'Switch':
                 return 'LIGHT';
             case 'EIBDimmer':
+                return 'LIGHT';
+            case 'Dimmer':
                 return 'LIGHT';
             case 'Jalousie':
                 return 'BLINDS';
