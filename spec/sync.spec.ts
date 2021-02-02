@@ -26,7 +26,7 @@ describe('Sync', () => {
         app?.server?.close(done);
     });
 
-    it('should display two elements', (done: DoneFn) => {
+    it('should display elements', (done: DoneFn) => {
         RxHR.post(`http://localhost:3000/smarthome`, {
             json: true,
             headers: {
@@ -41,7 +41,7 @@ describe('Sync', () => {
         })
             .pipe(map((resp: any) => resp.body))
             .subscribe((resp) => {
-                expect(resp.payload.devices.length).toEqual(4);
+                expect(resp.payload.devices.length).toEqual(5);
 
                 expect(resp.payload.devices[0].id).toEqual('10f5096d-0338-13c2-ffffd75a488e408a');
                 expect(resp.payload.devices[0].type).toEqual('action.devices.types.LIGHT');
@@ -54,6 +54,9 @@ describe('Sync', () => {
 
                 expect(resp.payload.devices[3].id).toEqual('10f4ff00-0155-692f-ffff6322d0f91668');
                 expect(resp.payload.devices[3].type).toEqual('action.devices.types.LIGHT');
+
+                expect(resp.payload.devices[4].id).toEqual('10f4ff00-0155-692f-ffff6322d0f91669');
+                expect(resp.payload.devices[4].type).toEqual('action.devices.types.LIGHT');
 
                 done();
             });
