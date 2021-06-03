@@ -36,7 +36,7 @@ export class TemperatureSettingHandler implements CapabilityHandler<TemperatureS
 
   getAttributes(component: TemperatureControl): any {
     return {
-      'availableThermostatModes': 'off,on',
+      'availableThermostatModes': 'off,on,heat,cool,heatcool',
       'thermostatTemperatureUnit': 'C'
     }
   }
