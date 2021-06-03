@@ -21,6 +21,14 @@ export class TemperatureComponent extends Component implements TemperatureSettin
             this.temperatureState.thermostatTemperatureSetpoint = parseInt(event, 10);
             this.statesEvents.next(this);
         });
+        this.loxoneRequest.watchComponent(temperature.states.operatingMode).subscribe((event) => {
+            switch(parseInt(event)) {
+              case 0: this.temperatureState.thermostatMode = 'heatcool'; break;
+              case 1: this.temperatureState.thermostatMode = 'heat'; break;
+              case 2: this.temperatureState.thermostatMode = 'cool'; break;
+            }
+            this.statesEvents.next(this);
+        });
     });
   }
 

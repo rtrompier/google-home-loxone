@@ -1,0 +1,29 @@
+name: CI tests
+
+on:
+  push:
+    branches:
+    - '**'
+    tags-ignore:
+    - '**'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  ci_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 15.x
+      - name: Install O.S dependencies
+        run: sudo apt-get install libavahi-compat-libdnssd-dev
+      - name: Install dependencies
+        run: npm clean-install
+      # - name: Lint
+      #   run: npm run lint
+      - name: Test library
+        run: npm run test

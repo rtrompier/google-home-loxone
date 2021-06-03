@@ -17,12 +17,12 @@ export class TemperatureControlHandler implements CapabilityHandler<TemperatureC
 
   getAttributes(component: TemperatureControl): any {
     return {
-      'temperatureRange': {
+      'thermostatTemperatureRange': {
         'minThresholdCelsius': 30,
         'maxThresholdCelsius': 100
       },
       'temperatureStepCelsius': 1,
-      'temperatureUnitForUX': 'C'
+      'thermostatTemperatureUnit': 'C'
     }
   }
 
