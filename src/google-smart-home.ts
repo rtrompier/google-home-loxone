@@ -9,7 +9,7 @@ import {
     SmartHomeV1QueryRequestPayload,
     SmartHomeV1QueryResponse,
     SmartHomeV1SyncResponse
-} from 'actions-on-google/dist/service/smarthome/api/v1';
+} from './smarthome/api.model';
 import { Request } from 'express-serve-static-core';
 import { from, interval, Observable, of } from 'rxjs';
 import { buffer, catchError, filter, map, mergeMap, tap, toArray } from 'rxjs/operators';
