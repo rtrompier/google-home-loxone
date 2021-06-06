@@ -20,6 +20,9 @@ export class NotifierDevice {
 }
 
 export class Notifier {
+    public serverIp: string;
+    public azureSubscriptionKey: string;
+    public azureRegion: string;
     public lang: string;
     public devices: NotifierDevice[];
 }
@@ -36,6 +39,7 @@ export class Weather {
 }
 
 export class Config {
+    public serverPort: string;
     public loxone: LoxoneConfig;
     public components: ComponentRaw[];
     public authorizedEmails: string[];
