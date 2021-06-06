@@ -22,9 +22,11 @@ export class Server {
     private weather: Weather;
 
     private readonly config: Config;
-    private readonly jwtConfig: Config;
+    private readonly jwtPath: string;
+    private readonly jwtConfig: string;
 
     constructor(argv: any, callback?: () => any) {
+        this.jwtPath = argv.jwt;
         this.jwtConfig = JSON.parse(readFileSync(argv.jwt, 'utf-8'));
         this.config = JSON.parse(readFileSync(argv.config, 'utf-8'));
         if (argv.verbose) {
@@ -42,7 +44,7 @@ export class Server {
         const statesEvents = new Subject<Component>();
         const loxoneRequest = new LoxoneRequest(this.config);
         const components = new ComponentsFactory(this.config, loxoneRequest, statesEvents);
-        this.smartHome = new GoogleSmartHome(this.config, components, new Auth0(this.config), statesEvents, this.jwtConfig);
+        this.smartHome = new GoogleSmartHome(this.config, components, new Auth0(this.config), statesEvents, this.jwtConfig, this.jwtPath);
         this.notifier = new Notifier(this.config);
         this.weather = new Weather(this.config);
 

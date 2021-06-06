@@ -1,7 +1,5 @@
 import { Request } from 'express-serve-static-core';
-import * as GoogleHome from 'node-googlehome';
-import { from, Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
 import { Config } from '../config';
 import { NotifierService } from './notifier-service.model';
 
@@ -27,13 +25,7 @@ export class Notifier {
             return throwError('Device not found');
         }
 
-        const service = new GoogleHome.Connecter(device.ip);
-        service.config({ lang: this.config.notifier.lang });
-        return from(service.speak(text))
-            .pipe(catchError((err) => {
-                console.error(err);
-                return throwError(`${err.message}`);
-            }));
+        return throwError(`Deprecated operation`);
     }
 
 }
