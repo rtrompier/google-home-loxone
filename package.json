@@ -8,8 +8,10 @@
     },
     "dependencies": {
         "@akanass/rx-http-request": "^3.3.0",
+        "castv2-client": "^1.2.0",
         "express": "^4.17.1",
         "googleapis": "^75.0.0",
+        "microsoft-cognitiveservices-speech-sdk": "^1.17.0",
         "node-lox-ws-api": "^0.4.5",
         "rxjs": "^6.5.2",
         "uuid": "^8.3.1",

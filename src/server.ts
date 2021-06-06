@@ -2,7 +2,6 @@ import * as bodyParser from 'body-parser';
 import express, { Express } from 'express';
 import { Request, Response } from 'express-serve-static-core';
 import { readFileSync } from 'fs';
-import { Http2SecureServer } from 'http2';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/internal/Subject';
 import { Auth0 } from './auth';
@@ -29,6 +28,7 @@ export class Server {
         this.jwtPath = argv.jwt;
         this.jwtConfig = JSON.parse(readFileSync(argv.jwt, 'utf-8'));
         this.config = JSON.parse(readFileSync(argv.config, 'utf-8'));
+        this.config.serverPort = argv.port;
         if (argv.verbose) {
             this.config.log = true;
         }
@@ -99,6 +99,21 @@ export class Server {
         router.get('/speech', (request: Request, response: Response) => {
             this.notifier.handler(request).subscribe((result) => {
                 response.status(200).json(result);
+            }, (error) => {
+                response.status(500).json({ error: error });
+            });
+        });
+
+        router.get('/speech/stream', (request: Request, response: Response) => {
+            console.log('-------------')
+            console.log('STREAM START')
+            console.log('-------------')
+            this.notifier.streamHandler(request).subscribe((stream) => {
+                response.writeHead(200, {
+                    'Content-Type': 'audio/mpeg',
+                    'Transfer-Encoding': 'chunked'
+                });
+                stream.pipe(response);
             }, (error) => {
                 response.status(500).json({ error: error });
             });
