@@ -34,7 +34,7 @@ export class NetatmoApi {
                 switchMap(() => this.getData()),
                 tap((resps: WeatherStation[]) => {
                     // Parse response
-                    resps.forEach((resp) => {
+                    resps?.forEach((resp) => {
                         Object.keys(resp.measures).forEach((id) => {
                             this.findValue(resp.measures[id], 'temperature');
                             this.findValue(resp.measures[id], 'humidity');
@@ -53,7 +53,7 @@ export class NetatmoApi {
      * @param measure
      */
     private findValue(measure: any, type: 'temperature' | 'humidity' | 'pressure'): void {
-        if (!measure.type) {
+        if (!measure?.type) {
             return;
         }
 
