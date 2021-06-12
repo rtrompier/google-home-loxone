@@ -11,6 +11,7 @@
   "agentUserId": "loxone-12345",
   "token": "abcdefghijklmnop",
   "notifier": {
+    "serverIp": "192.168.1.10",
     "lang": "fr",
     "devices": [
       {
