@@ -115,7 +115,7 @@ You can pass the following params :
 ### Notifier
 This project allow you to send notifications to yours Google Home.
 
-1. In the configuration file, you have to set your language ('en', 'fr', etc ...) and define your google home devices. Please, see the config.json.template file.
+1. In the configuration file, you have to set your language ('en', 'fr', etc ...), server IP, and define your google home devices. Please, see the config.json.template file. Server IP will be used to stream voice notification to your Google Device.
 1. Your notification can be send by HTTP Call to `http://YOUR_SERVER:3000/speech`
 1. Text and targeted devide, must be passed in query param. Eg : `http://YOUR_SERVER:3000/speech?device=YOUR_GOOGLEHOME_NAME&text=Hello`
 1. You can now configure your loxone server, to send vocal notification to your google home (Eg : "Alarm will be armed in 60 seconds")

@@ -1,9 +1,9 @@
+import axios from 'axios';
 import { Client, DefaultMediaReceiver } from 'castv2-client';
 import { Request } from 'express-serve-static-core';
-import { SpeechConfig, SpeechSynthesisOutputFormat, SpeechSynthesizer } from 'microsoft-cognitiveservices-speech-sdk';
+import { getAudioUrl } from 'google-tts-api';
 import * as os from 'os';
 import { Observable, throwError } from 'rxjs';
-import { PassThrough } from 'stream';
 import { Config } from '../config';
 import { NotifierService } from './notifier-service.model';
 
@@ -57,28 +57,20 @@ export class Notifier {
         });
     }
 
-    public streamHandler(request: Request): Observable<PassThrough> {
+    public streamHandler(request: Request): Observable<any> {
         const text = request?.query?.text as string;
-        
-        const speechConfig = SpeechConfig.fromSubscription(this.config.notifier.azureSubscriptionKey, this.config.notifier.azureRegion);
-        speechConfig.speechSynthesisOutputFormat = SpeechSynthesisOutputFormat.Riff24Khz16BitMonoPcm;
-        speechConfig.speechSynthesisVoiceName = this.config.notifier.lang;
-        const synthesizer = new SpeechSynthesizer(speechConfig);
-
+        const url = getAudioUrl(text, { lang: this.config.notifier.lang });
         return new Observable((observer) => {
-            synthesizer.speakTextAsync(text, (result) => {
-                const { audioData } = result;
-                synthesizer.close();
-
-                const bufferStream = new PassThrough();
-                bufferStream.end(Buffer.from(audioData));
-
-                observer.next(bufferStream);
+            const response = axios({
+                method: 'GET',
+                url: url,
+                responseType: 'stream'
+            }).then((response) => {
+                observer.next(response.data);
                 observer.complete();
-            }, (error) => {
-                synthesizer.close();
+            }).catch((error) => {
                 observer.error(error);
-            });
+            })
         });
     }
 

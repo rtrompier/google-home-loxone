@@ -105,9 +105,6 @@ export class Server {
         });
 
         router.get('/speech/stream', (request: Request, response: Response) => {
-            console.log('-------------')
-            console.log('STREAM START')
-            console.log('-------------')
             this.notifier.streamHandler(request).subscribe((stream) => {
                 response.writeHead(200, {
                     'Content-Type': 'audio/mpeg',
