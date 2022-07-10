@@ -23,7 +23,6 @@
         "@types/jasmine": "^3.5.14",
         "@types/node": "~15.12.1",
         "@types/yargs": "^17.0.0",
-        "codelyzer": "^6.0.1",
         "jasmine": "^3.6.1",
         "jasmine-core": "^3.6.0",
         "jasmine-node": "^1.16.0",
@@ -39,7 +38,7 @@
     },
     "scripts": {
         "start": "tsc && node dist/index.js",
-        "start:dev": "tsc-watch --onSuccess \"node ./dist/index.js\"",
+        "start:dev": "tsc-watch --onSuccess \"node ./dist/index.js --verbose true\"",
         "start:prod": "tsc && pm2 start dist/index.js --name google-home-loxone",
         "stop": "pm2 stop google-home-loxone",
         "build": "tsc",

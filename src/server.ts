@@ -29,7 +29,7 @@ export class Server {
         this.jwtConfig = JSON.parse(readFileSync(argv.jwt, 'utf-8'));
         this.config = JSON.parse(readFileSync(argv.config, 'utf-8'));
         this.config.serverPort = argv.port;
-        if (argv.verbose) {
+        if (argv.verbose || process.env.GHL_VERBOSE === 'true') {
             this.config.log = true;
         }
 
