@@ -53,6 +53,7 @@ Create a config.json file (usually in ~/.google-home-loxone) to allow the plugin
 ```
 {
   "loxone": {
+    "protocol": "http",
     "url": "LOXONE_IP", // Your loxone IP or hostname
     "user": "LOXONE_USER, // Your loxone username
     "password": "LOXONE_PASSWORD" // Your loxone password

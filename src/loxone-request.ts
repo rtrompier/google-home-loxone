@@ -46,7 +46,7 @@ export class LoxoneRequest {
     }
 
     sync(): Observable<any> {
-        let url = `http://`;
+        let url = `${this.config.loxone.protocol ? this.config.loxone.protocol : 'http'}://`;
         if (this.config.loxone.user && this.config.loxone.password) {
             url += `${encodeURIComponent(this.config.loxone.user)}:${encodeURIComponent(this.config.loxone.password)}@`;
         }

@@ -9,6 +9,7 @@ export class ComponentRaw {
 }
 
 export class LoxoneConfig {
+    public protocol: string;
     public url: string;
     public user: string;
     public password: string;
