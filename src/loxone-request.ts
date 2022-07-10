@@ -48,7 +48,7 @@ export class LoxoneRequest {
     sync(): Observable<any> {
         let url = `http://`;
         if (this.config.loxone.user && this.config.loxone.password) {
-            url += `${this.config.loxone.user}:${this.config.loxone.password}@`;
+            url += `${encodeURIComponent(this.config.loxone.user)}:${encodeURIComponent(this.config.loxone.password)}@`;
         }
         url += `${this.config.loxone.url}/data/LoxApp3.json`;
         if (this.config.log) {
