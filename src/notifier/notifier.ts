@@ -22,7 +22,7 @@ export class Notifier {
         const text = request.query.text;
 
         if (this.config.log) {
-            console.log('Notifier request received', deviceName, text, request);
+            console.log('Notifier request received', deviceName, text);
         }
 
         const device = this.devices.find((dev) => dev.name === deviceName);
@@ -31,7 +31,7 @@ export class Notifier {
         }
 
         return new Observable((observer) => {
-            const url = `http://${this.getServerIp()}:${this.config.serverPort}/speech/stream?text=${text}`;
+            const url = `${this.getServerBaseUrl()}/speech/stream?text=${text}`;
             this.client = new Client();
             this.client.connect(device.ip, () => {
                 this.client.launch(DefaultMediaReceiver, (err, player) => {
@@ -74,9 +74,9 @@ export class Notifier {
         });
     }
 
-    private getServerIp(): string {
-        if (this.config.notifier.serverIp) {
-            return this.config.notifier.serverIp;
+    private getServerBaseUrl(): string {
+        if (this.config.notifier.serverBaseUrl) {
+            return this.config.notifier.serverBaseUrl;
         }
 
         let address = null;

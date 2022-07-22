@@ -1,7 +1,7 @@
 export class ComponentRaw {
     public id: string;
     public loxoneId?: string;
-    public type: 'LIGHT' | 'THERMOSTAT' | 'BLINDS' | 'SWITCH' | 'SENSOR';
+    public type: 'LIGHT' | 'THERMOSTAT' | 'BLINDS' | 'SWITCH' | 'SENSOR';
     public loxoneType: string;
     public name: string;
     public room: string;
@@ -21,7 +21,7 @@ export class NotifierDevice {
 }
 
 export class Notifier {
-    public serverIp: string;
+    public serverBaseUrl: string;
     public azureSubscriptionKey: string;
     public azureRegion: string;
     public lang: string;
