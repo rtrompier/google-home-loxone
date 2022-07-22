@@ -37,7 +37,14 @@ done securely through [JWT (JSON web tokens)](https://jwt.io/).
 
 ### Installation
 
-Install the plugin through npm or download the files from here.
+Two options are available.
+Use the docker image (recommanded)
+
+```sh
+docker run -p 3000:3000 -v ./jwt.json:/root/.google-home-loxone/jwt.json -v ./config.json:/root/.google-home-loxone/config.json -e GHL_VERBOSE=true --name google-home-loxone -d rtrompier/google-home-loxone:latest
+```
+
+or install the plugin through npm or download the files from here.
 
 ```sh
 $ sudo npm install -g google-home-loxone --unsafe-perm
