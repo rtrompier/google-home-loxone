@@ -116,6 +116,10 @@ export class Server {
             });
         });
 
+        router.get('/health', (request: Request, response: Response) => {
+            response.status(200).json({status: 'OK'});
+        });
+
         this.weather.initWeatherRouter(router);
 
         this.app.use(router);
