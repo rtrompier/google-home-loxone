@@ -1,6 +1,9 @@
 {
     "loxone": {
-        "url": "miniserver:8080"
+        "protocol": "https",
+        "url": "miniserver:8080",
+        "user": "my_user",
+        "password": "my_pass"
     },
     "oAuthUrl": "https://xcid.eu.auth0.com",
     "authorizedEmails": [

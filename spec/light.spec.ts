@@ -9,7 +9,7 @@ let app;
 
 describe('Light', () => {
     beforeAll((done: DoneFn) => {
-        const url = `http://${config.loxone.url}`;
+        const url = `${config.loxone.protocol}://${config.loxone.url}`;
 
         nock(url)
             .post('/data/LoxApp3.json')
