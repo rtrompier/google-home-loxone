@@ -1,6 +1,6 @@
-import { RxHR } from '@akanass/rx-http-request';
-import { Observable, of, Subject } from 'rxjs/index';
-import { map } from 'rxjs/operators';
+import { Axios } from 'axios-observable';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { Config } from './config';
 
 const LoxoneWebSocket = require('node-lox-ws-api');
@@ -46,18 +46,23 @@ export class LoxoneRequest {
     }
 
     sync(): Observable<any> {
-        let url = `${this.config.loxone.protocol ? this.config.loxone.protocol : 'http'}://`;
-        if (this.config.loxone.user && this.config.loxone.password) {
-            url += `${encodeURIComponent(this.config.loxone.user)}:${encodeURIComponent(this.config.loxone.password)}@`;
-        }
-        url += `${this.config.loxone.url}/data/LoxApp3.json`;
+        const url = `${this.config.loxone.protocol}://${this.config.loxone.url}/data/LoxApp3.json`;
         if (this.config.log) {
             console.log('Loxone autodiscover on ', url);
         }
 
-        return RxHR.post(url, {
-            json: true
-        }).pipe(map((resp: any) => resp.body));
+        return Axios.post(url, null, {
+            auth: {
+                username: this.config.loxone.user,
+                password: this.config.loxone.password
+            }
+        }).pipe(
+            map((resp) => resp.data),
+            catchError(err => {
+                console.error('Error while requesting Loxone component', err);
+                throw 'Error while requesting Loxone component';
+            })
+        );
     }
 
     watchComponent(uuid: string): Observable<any> {

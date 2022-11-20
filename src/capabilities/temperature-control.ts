@@ -1,6 +1,5 @@
-import {Observable} from 'rxjs';
-import {of} from 'rxjs/internal/observable/of';
-import {Capability, CapabilityHandler} from './capability-handler';
+import { Observable, of } from 'rxjs';
+import { Capability, CapabilityHandler } from './capability-handler';
 
 export interface TemperatureControl extends Capability {
   getTemperature(): Observable<any>;

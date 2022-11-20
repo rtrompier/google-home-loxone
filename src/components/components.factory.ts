@@ -1,5 +1,4 @@
-import { Observable } from 'rxjs';
-import { Subject } from 'rxjs/internal/Subject';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ComponentRaw, Config } from '../config';
 import { LoxoneRequest } from '../loxone-request';
@@ -24,6 +23,9 @@ export class ComponentsFactory {
     init(): Observable<{ [key: string]: Component }> {
         return this.loxoneRequest.sync().pipe(
             map((body: any) => {
+                console.log('-----------------')
+                console.log(body)
+                console.log('-----------------')
                 for (const controlId in body.controls) {
                     if (!body.controls.hasOwnProperty(controlId)) {
                         continue;

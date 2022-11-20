@@ -1,4 +1,4 @@
-import {Observable, of, Subject} from 'rxjs/index';
+import {Observable, of, Subject} from 'rxjs';
 import {CapabilityHandler} from '../capabilities/capability-handler';
 import {TemperatureSetting, TemperatureSettingHandler, TemperatureState} from '../capabilities/temperature-setting';
 import {ComponentRaw} from '../config';

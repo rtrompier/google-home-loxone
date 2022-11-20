@@ -1,6 +1,5 @@
-import {Observable} from 'rxjs';
-import {of} from 'rxjs/internal/observable/of';
-import {Capability, CapabilityHandler} from './capability-handler';
+import { Observable, of } from 'rxjs';
+import { Capability, CapabilityHandler } from './capability-handler';
 
 /* tslint:disable no-empty-interface */
 export interface EndpointHealth extends Capability {

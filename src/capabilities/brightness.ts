@@ -1,5 +1,4 @@
-import { of } from 'rxjs';
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Capability, CapabilityHandler } from './capability-handler';
 

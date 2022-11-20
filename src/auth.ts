@@ -1,6 +1,6 @@
-import { RxHR, RxHttpRequestResponse } from '@akanass/rx-http-request';
-import { Observable } from 'rxjs/internal/Observable';
-import { of } from 'rxjs/internal/observable/of';
+import { Axios, AxiosObservable } from 'axios-observable';
+import { Request } from 'express';
+import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Config } from './config';
 
@@ -15,20 +15,19 @@ export class Auth0 {
     this.testMode = config.testMode;
   }
 
-  private checkUser(token: string): Observable<RxHttpRequestResponse> {
+  private checkUser(token: string): AxiosObservable<any> {
     const url = `${this.oAuthUrl}/userinfo/`;
 
-    return RxHR.get(url, {
-      gzip: true,
+    return Axios.get(url, {
       headers: {
-        authorization: 'Bearer ' + token
+        authorization: 'Bearer ' + token,
+        'Accept-Encoding': 'gzip'
       }
-    });
+    }).pipe(map((resp) => resp.data));
   }
 
-  public checkToken(request: any): Observable<boolean> {
-    const token = request.headers.authorization ?
-      request.headers.authorization.split(' ')[1] : null;
+  public checkToken(request: Request): Observable<boolean> {
+    const token = request.headers.authorization ? request.headers.authorization.split(' ')[1] : null;
 
     if (this.testMode && token === 'access-token-from-skill') {
       return of(true);
@@ -36,8 +35,8 @@ export class Auth0 {
 
     return this.checkUser(token).pipe(
       map(result => {
-        if (result.response.statusCode === 200) {
-          const user = JSON.parse(result.response.body);
+        if (result.status === 200) {
+          const user = JSON.parse(result.data);
           return this.authorizedEmails.indexOf(user.email) > -1;
         }
         return false;

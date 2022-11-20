@@ -1,23 +1,19 @@
 import * as bodyParser from 'body-parser';
-import express, { Express } from 'express';
-import { Request, Response } from 'express-serve-static-core';
+import express, { Express, Request, Response } from 'express';
 import { readFileSync } from 'fs';
-import { Observable } from 'rxjs';
-import { Subject } from 'rxjs/internal/Subject';
+import { Observable, Subject } from 'rxjs';
 import { Auth0 } from './auth';
 import { Component } from './components/component';
 import { ComponentsFactory } from './components/components.factory';
 import { Config } from './config';
 import { GoogleSmartHome } from './google-smart-home';
 import { LoxoneRequest } from './loxone-request';
-import { Notifier } from './notifier/notifier';
 import { Weather } from './weather/weather';
 
 export class Server {
     public app: Express;
     public server: any;
     private smartHome: GoogleSmartHome;
-    private notifier: Notifier;
     private weather: Weather;
 
     private readonly config: Config;
@@ -45,7 +41,6 @@ export class Server {
         const loxoneRequest = new LoxoneRequest(this.config);
         const components = new ComponentsFactory(this.config, loxoneRequest, statesEvents);
         this.smartHome = new GoogleSmartHome(this.config, components, new Auth0(this.config), statesEvents, this.jwtConfig, this.jwtPath);
-        this.notifier = new Notifier(this.config);
         this.weather = new Weather(this.config);
 
         this.routes();
@@ -96,28 +91,8 @@ export class Server {
             })
         });
 
-        router.get('/speech', (request: Request, response: Response) => {
-            this.notifier.handler(request).subscribe((result) => {
-                response.status(200).json(result);
-            }, (error) => {
-                response.status(500).json({ error: error });
-            });
-        });
-
-        router.get('/speech/stream', (request: Request, response: Response) => {
-            this.notifier.streamHandler(request).subscribe((stream) => {
-                response.writeHead(200, {
-                    'Content-Type': 'audio/mpeg',
-                    'Transfer-Encoding': 'chunked'
-                });
-                stream.pipe(response);
-            }, (error) => {
-                response.status(500).json({ error: error });
-            });
-        });
-
         router.get('/health', (request: Request, response: Response) => {
-            response.status(200).json({status: 'OK'});
+            response.status(200).json({ status: 'OK' });
         });
 
         this.weather.initWeatherRouter(router);

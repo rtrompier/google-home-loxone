@@ -1,6 +1,6 @@
-import { RxHR } from '@akanass/rx-http-request';
+import { Axios } from 'axios-observable';
 import { Observable, of } from 'rxjs';
-import { first, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, first, map, switchMap, tap } from 'rxjs/operators';
 import { Config } from '../config';
 import { WeatherMeasure } from './weather-measure.model';
 import { WeatherResponse } from './weather-response.model';
@@ -96,19 +96,20 @@ export class NetatmoApi {
             return of(null);
         }
 
-        return RxHR.post(`https://api.netatmo.com/oauth2/token`, {
-            json: true,
-            form: {
-                'client_id': this.config.weather.clientId,
-                'client_secret': this.config.weather.clientSecret,
-                'grant_type': 'password',
-                'username': this.config.weather.username,
-                'password': this.config.weather.password,
-                'scope': 'read_station',
+        return Axios.post(`https://api.netatmo.com/oauth2/token`, {
+            'client_id': this.config.weather.clientId,
+            'client_secret': this.config.weather.clientSecret,
+            'grant_type': 'password',
+            'username': this.config.weather.username,
+            'password': this.config.weather.password,
+            'scope': 'read_station',
+        }, {
+            headers: {
+                "Content-Type": "multipart/form-data",
             }
         }).pipe(
             map((resp: any) => {
-                const body = resp.body;
+                const body = resp.data;
 
                 if (this.config.log) {
                     console.log(`Netatmo auth response`, resp);
@@ -127,23 +128,24 @@ export class NetatmoApi {
                 }
 
                 return body;
+            }),
+            catchError(err => {
+                console.error('Error while requesting netatmo', err);
+                throw new Error('Error')
             })
         );
     }
 
     private getData(): Observable<WeatherStation[]> {
-        return RxHR.post(`https://api.netatmo.com/api/getpublicdata`, {
-            json: true,
-            body: {
-                'access_token': this.token,
-                'lat_ne': this.config.weather.lat_ne,
-                'lon_ne': this.config.weather.lon_ne,
-                'lat_sw': this.config.weather.lat_sw,
-                'lon_sw': this.config.weather.lon_sw
-            }
+        return Axios.post(`https://api.netatmo.com/api/getpublicdata`, {
+            'access_token': this.token,
+            'lat_ne': this.config.weather.lat_ne,
+            'lon_ne': this.config.weather.lon_ne,
+            'lat_sw': this.config.weather.lat_sw,
+            'lon_sw': this.config.weather.lon_sw
         }).pipe(
             map((resp: any) => {
-                const body = resp.body;
+                const body = resp.data;
 
                 if (this.config.log) {
                     console.log(`Weather response`, body);
@@ -155,14 +157,11 @@ export class NetatmoApi {
     }
 
     private refreshAuth(): Observable<void> {
-        return RxHR.post(`https://api.netatmo.com/api/getpublicdata`, {
-            json: true,
-            body: {
-                grant_type: 'refresh_token',
-                refresh_token: this.refreshToken,
-                client_id: this.config.weather.clientId,
-                client_secret: this.config.weather.clientSecret,
-            }
+        return Axios.post(`https://api.netatmo.com/api/getpublicdata`, {
+            grant_type: 'refresh_token',
+            refresh_token: this.refreshToken,
+            client_id: this.config.weather.clientId,
+            client_secret: this.config.weather.clientSecret,
         }).pipe(
             map((resp: any) => {
                 const body = resp.body;

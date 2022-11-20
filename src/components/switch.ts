@@ -1,4 +1,4 @@
-import { Observable, of, Subject } from 'rxjs/index';
+import { Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CapabilityHandler } from '../capabilities/capability-handler';
 import { EndpointHealthHandler } from '../capabilities/endpoint-health';

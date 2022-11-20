@@ -1,7 +1,5 @@
-import { of, Subject } from 'rxjs/index';
-import { Observable } from 'rxjs/internal/Observable';
-import { fromArray } from 'rxjs/internal/observable/fromArray';
-import { map, mergeMap, toArray } from 'rxjs/internal/operators';
+import { Observable, of, Subject, from } from 'rxjs';
+import { map, mergeMap, toArray } from 'rxjs/operators';
 import { CapabilityHandler } from '../capabilities/capability-handler';
 import { EndpointHealth, EndpointHealthHandler } from '../capabilities/endpoint-health';
 import { ComponentRaw } from '../config';
@@ -34,7 +32,7 @@ export abstract class Component implements EndpointHealth {
         const capabilities = this.getCapabilities();
         capabilities.push(EndpointHealthHandler.INSTANCE);
 
-        return fromArray(capabilities).pipe(
+        return from(capabilities).pipe(
             mergeMap(handler => {
                 return handler.getState(this)
             }),

@@ -1,5 +1,4 @@
-import { forkJoin, of } from 'rxjs';
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable, forkJoin, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ErrorType } from '../error';
 import { Capability, CapabilityHandler } from './capability-handler';

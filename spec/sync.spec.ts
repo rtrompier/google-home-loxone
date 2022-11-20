@@ -1,11 +1,11 @@
-import { RxHR } from '@akanass/rx-http-request';
+import { Axios } from 'axios-observable';
 import nock from 'nock';
 import { map } from 'rxjs/operators';
 import { Server } from '../src/server';
 
 const config = require('./support/config_test.json');
 const loxoneDiscoverResponse = require('./responses/loxone-discover.json');
-let app = null;
+let app;
 
 describe('Sync', () => {
     beforeAll((done: DoneFn) => {
@@ -27,19 +27,17 @@ describe('Sync', () => {
     });
 
     it('should display elements', (done: DoneFn) => {
-        RxHR.post(`http://localhost:3000/smarthome`, {
-            json: true,
+        Axios.post(`http://localhost:3000/smarthome`, {
+            requestId: 'ff36a3cc-sync-1',
+            inputs: [{
+                intent: 'action.devices.SYNC'
+            }]
+        }, {
             headers: {
                 Authorization: 'Bearer access-token-from-skill',
-            },
-            body: {
-                requestId: 'ff36a3cc-sync-1',
-                inputs: [{
-                    intent: 'action.devices.SYNC'
-                }]
             }
         })
-            .pipe(map((resp: any) => resp.body))
+            .pipe(map((resp: any) => resp.data))
             .subscribe((resp) => {
                 expect(resp.payload.devices.length).toEqual(5);
 

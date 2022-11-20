@@ -15,19 +15,6 @@ export class LoxoneConfig {
     public password: string;
 }
 
-export class NotifierDevice {
-    public name: string;
-    public ip: string;
-}
-
-export class Notifier {
-    public serverBaseUrl: string;
-    public azureSubscriptionKey: string;
-    public azureRegion: string;
-    public lang: string;
-    public devices: NotifierDevice[];
-}
-
 export class Weather {
     public clientId: string;
     public clientSecret: string;
@@ -48,6 +35,5 @@ export class Config {
     public log: boolean;
     public testMode: boolean;
     public agentUserId: string;
-    public notifier: Notifier;
     public weather: Weather;
 }

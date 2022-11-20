@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable } from 'rxjs';
 import { BrightnessHandler } from './brightness';
 import { EndpointHealthHandler } from './endpoint-health';
 import { OnOffHandler } from './on-off';

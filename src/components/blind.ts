@@ -1,5 +1,5 @@
-import { Observable, of, Subject } from 'rxjs/index';
-import { map, switchMap, switchMapTo } from 'rxjs/internal/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { CapabilityHandler } from '../capabilities/capability-handler';
 import { EndpointHealthHandler } from '../capabilities/endpoint-health';
 import { OpenClose, OpenCloseAttributes, OpenCloseHandler } from '../capabilities/open-close';
