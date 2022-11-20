@@ -10,20 +10,6 @@
   ],
   "agentUserId": "loxone-12345",
   "token": "abcdefghijklmnop",
-  "notifier": {
-    "serverIp": "192.168.1.10",
-    "lang": "fr",
-    "devices": [
-      {
-        "name": "Living Room",
-        "ip": "192.168.0.1"
-      },
-      {
-        "name": "Bedroom",
-        "ip": "192.168.0.2"
-      }
-    ]
-  },
   "weather": {
     "clientId": "APPID",
     "clientSecret": "SECRET",

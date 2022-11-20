@@ -71,21 +71,6 @@ Create a config.json file (usually in ~/.google-home-loxone) to allow the plugin
   ],
   "agentUserId": "loxone-12345", // The name of your app
   "log": true // Activate verbose mode
-  
-  // This section is used for vocals notifications
-  "notifier": {
-    "lang": "fr",
-    "devices": [
-      {
-        "name": "Salon",
-        "ip": "192.168.1.241"
-      },
-      {
-        "name": "Chambre",
-        "ip": "192.168.1.240"
-      }
-    ]
-  },
 
   // This section is used for weather values
   "weather": {
@@ -118,15 +103,6 @@ You can pass the following params :
 * **port** The port used by the google-home-loxone server
 * **jwt** The path of your jwt.json file, created in Google Cloud Console
 * **config** The path of your config.json file, to configure the application
-
-
-### Notifier
-This project allow you to send notifications to yours Google Home.
-
-1. In the configuration file, you have to set your language ('en', 'fr', etc ...), server IP, and define your google home devices. Please, see the config.json.template file. Server IP will be used to stream voice notification to your Google Device.
-1. Your notification can be send by HTTP Call to `http://YOUR_SERVER:3000/speech`
-1. Text and targeted devide, must be passed in query param. Eg : `http://YOUR_SERVER:3000/speech?device=YOUR_GOOGLEHOME_NAME&text=Hello`
-1. You can now configure your loxone server, to send vocal notification to your google home (Eg : "Alarm will be armed in 60 seconds")
 
 ### Weather
 This project allow you to get weather information from Netatmo Weather Station near of you.
