@@ -14,6 +14,7 @@ export class LoxoneRequest {
 
     constructor(config: Config) {
         this.config = config;
+        // Note : Loxone WS doesn't allow WSS connection.
         this.socket = new LoxoneWebSocket(config.loxone.url, config.loxone.user, config.loxone.password, true);
         this.connect();
 
@@ -28,9 +29,17 @@ export class LoxoneRequest {
 
     connect() {
         this.socket.connect();
+        
         this.socket.on('connect_failed', () => {
             console.error('Connection to Loxone failed');
-            setTimeout(() => this.socket.connect(), 10000);
+        });
+        
+        this.socket.on('connection_error', () => {
+            console.error('Connection to Loxone errored');
+        });
+
+        this.socket.on('close', (info, reason) => {
+            console.error('Connection to Loxone closed', info, reason);
         });
 
         this.socket.on('message_text', (message) => {

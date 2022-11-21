@@ -2,6 +2,7 @@ import { Axios, AxiosObservable } from 'axios-observable';
 import { Request } from 'express';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { User } from './auth/user.model';
 import { Config } from './config';
 
 export class Auth0 {
@@ -15,7 +16,7 @@ export class Auth0 {
     this.testMode = config.testMode;
   }
 
-  private checkUser(token: string): AxiosObservable<any> {
+  private checkUser(token: string): AxiosObservable<User> {
     const url = `${this.oAuthUrl}/userinfo/`;
 
     return Axios.get(url, {
@@ -23,7 +24,7 @@ export class Auth0 {
         authorization: 'Bearer ' + token,
         'Accept-Encoding': 'gzip'
       }
-    }).pipe(map((resp) => resp.data));
+    });
   }
 
   public checkToken(request: Request): Observable<boolean> {
@@ -36,12 +37,11 @@ export class Auth0 {
     return this.checkUser(token).pipe(
       map(result => {
         if (result.status === 200) {
-          const user = JSON.parse(result.data);
-          return this.authorizedEmails.indexOf(user.email) > -1;
+          return this.authorizedEmails.indexOf(result.data.email) > -1;
         }
         return false;
-      },
-        catchError(() => of(false))
-      ));
+      }),
+      catchError(() => of(false))
+    );
   }
 }

@@ -23,9 +23,6 @@ export class ComponentsFactory {
     init(): Observable<{ [key: string]: Component }> {
         return this.loxoneRequest.sync().pipe(
             map((body: any) => {
-                console.log('-----------------')
-                console.log(body)
-                console.log('-----------------')
                 for (const controlId in body.controls) {
                     if (!body.controls.hasOwnProperty(controlId)) {
                         continue;
