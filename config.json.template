@@ -10,16 +10,6 @@
   ],
   "agentUserId": "loxone-12345",
   "token": "abcdefghijklmnop",
-  "weather": {
-    "clientId": "APPID",
-    "clientSecret": "SECRET",
-    "username": "UserName",
-    "password": "userPass",
-    "lat_ne": "44",
-    "lon_ne": "6",
-    "lat_sw": "46",
-    "lon_sw": "6.99"
-  },
   "testMode": false,
   "log": false,
   "components": [

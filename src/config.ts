@@ -15,17 +15,6 @@ export class LoxoneConfig {
     public password: string;
 }
 
-export class Weather {
-    public clientId: string;
-    public clientSecret: string;
-    public username: string;
-    public password: string;
-    public lat_ne: string;
-    public lon_ne: string;
-    public lat_sw: string;
-    public lon_sw: string;
-}
-
 export class Config {
     public serverPort: string;
     public loxone: LoxoneConfig;
@@ -35,5 +24,4 @@ export class Config {
     public log: boolean;
     public testMode: boolean;
     public agentUserId: string;
-    public weather: Weather;
 }
