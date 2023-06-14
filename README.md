@@ -71,20 +71,6 @@ Create a config.json file (usually in ~/.google-home-loxone) to allow the plugin
   ],
   "agentUserId": "loxone-12345", // The name of your app
   "log": true // Activate verbose mode
-
-  // This section is used for weather values
-  "weather": {
-    "clientId": "NETATMO_CLIENTID", // Your netatmo client id
-    "clientSecret": "NETATMO_SECRET", // Your netatmo secret
-    "username": "remy.trompier@gmail.com", // Your netatmo user 
-    "password": "NETATMO_PASSWORD", // Your netatmo password
-    
-    // Used to scan around this position
-    "lat_ne": "46.287387014741256",
-    "lon_ne": "6.045639831542985",
-    "lat_sw": "46.280040021426814",
-    "lon_sw": "6.0173522720336905"
-  }
 }
 ```
 
@@ -105,9 +91,11 @@ You can pass the following params :
 * **config** The path of your config.json file, to configure the application
 
 ### Weather
-This project allow you to get weather information from Netatmo Weather Station near of you.
+If you don't want pay for Loxone Meteo service, you can connect your Loxone Server to the weather information from Netatmo Weather Station near of you.
 You can find all station here : https://weathermap.netatmo.com/
 
-1. In the configuration file, you have to set your Netatmo API Application information like clientId and clientSecret, your Netatmo credentials, and coordinate square around you (you can use https://developers.google.com/maps/documentation/javascript/examples/rectangle-event)
+You just have to start [this server](https://github.com/rtrompier/netatmo-weather-server), and plug your Loxone Server on it.
+
+1. Follow the instruction to configure it, and start.
 1. You can retrieve weather informations by calling : `http://YOUR_SERVER:3000/weather`
 1. You can now configure your loxone server, to parse result and get weather informations for free.

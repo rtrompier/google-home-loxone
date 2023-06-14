@@ -8,13 +8,11 @@ import { ComponentsFactory } from './components/components.factory';
 import { Config } from './config';
 import { GoogleSmartHome } from './google-smart-home';
 import { LoxoneRequest } from './loxone-request';
-import { Weather } from './weather/weather';
 
 export class Server {
     public app: Express;
     public server: any;
     private smartHome: GoogleSmartHome;
-    private weather: Weather;
 
     private readonly config: Config;
     private readonly jwtPath: string;
@@ -41,7 +39,6 @@ export class Server {
         const loxoneRequest = new LoxoneRequest(this.config);
         const components = new ComponentsFactory(this.config, loxoneRequest, statesEvents);
         this.smartHome = new GoogleSmartHome(this.config, components, new Auth0(this.config), statesEvents, this.jwtConfig, this.jwtPath);
-        this.weather = new Weather(this.config);
 
         this.routes();
         this.init(argv.port).subscribe(() => {
@@ -94,8 +91,6 @@ export class Server {
         router.get('/health', (request: Request, response: Response) => {
             response.status(200).json({ status: 'OK' });
         });
-
-        this.weather.initWeatherRouter(router);
 
         this.app.use(router);
     }
