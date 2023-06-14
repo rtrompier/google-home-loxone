@@ -1,5 +1,11 @@
 # GOOGLE HOME FOR LOXONE
 
+[![npm](https://img.shields.io/npm/v/google-home-loxone?color=blue&logo=npm)](https://www.npmjs.com/package/google-home-loxone)
+[![Download](https://img.shields.io/npm/dw/google-home-loxone.svg?color=7986CB&logo=npm)](https://npmcharts.com/compare/google-home-loxone?minimal=true)
+[![License](https://img.shields.io/npm/l/google-home-loxone.svg?color=ff69b4)](https://github.com/rtrompier/google-home-loxone/blob/main/LICENSE)
+
+This project allow you to control your Loxone Server from your Google Home.
+
 ## Requirements
 
 To use this plugin, you have to create your own SmartHome project in google : https://developers.google.com/assistant/smarthome/develop/create
