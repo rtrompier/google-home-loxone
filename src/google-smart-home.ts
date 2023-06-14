@@ -51,7 +51,8 @@ export class GoogleSmartHome {
                     const client = await auth.getClient();
                     const homegraph = google.homegraph({ version: 'v1', auth: client });
                     if (!this.config.testMode) {
-                        await homegraph.devices.requestSync({ requestBody: { agentUserId: this.config.agentUserId, } });
+                        // Using this call synchronously seem fail (Err 500 from Google API).
+                        await homegraph.devices.requestSync({ requestBody: { agentUserId: this.config.agentUserId, async: true } });
                     }
 
                     // Listening for loxone devices events
