@@ -110,7 +110,7 @@ export class BlindComponent extends Component implements OpenClose {
                     }
                     return of(true);
                 }),
-                switchMap(() => this.loxoneRequest.sendCmd(this.loxoneId, `ManualPosition/${percent}`)),
+                switchMap(() => this.loxoneRequest.sendCmd(this.loxoneId, `ManualPosition/${100 - percent}`)),
                 map(result => {
                     console.log('loxone resp', result);
                     if (result.code === '200') {
