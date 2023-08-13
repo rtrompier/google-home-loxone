@@ -4,6 +4,7 @@ import { EndpointHealthHandler } from './endpoint-health';
 import { OnOffHandler } from './on-off';
 import { OpenCloseHandler } from './open-close';
 import { TemperatureControlHandler } from './temperature-control';
+import { TemperatureSettingHandler } from './temperature-setting';
 
 /* tslint:disable no-empty-interface */
 export interface Capability {
@@ -31,6 +32,7 @@ export class Handlers {
       BrightnessHandler.INSTANCE,
       EndpointHealthHandler.INSTANCE,
       TemperatureControlHandler.INSTANCE,
+      TemperatureSettingHandler.INSTANCE,
       OpenCloseHandler.INSTANCE
     ];
 

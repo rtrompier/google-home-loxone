@@ -153,6 +153,32 @@
             "states": {
                 "position": "10f4ff00-0155-693c-ffff6322d0f91668"
             }
+        },
+        "10f4ff00-0155-692f-ffff6322d0f91670": {
+            "name": "Clim",
+            "type": "AcControl",
+            "uuidAction": "10f4ff00-0155-692f-ffff6322d0f91668",
+            "room": "10f4fbeb-0306-5af6-ffff0be037a23d47",
+            "cat": "103defc1-02e7-078d-ffff0be037a23d47",
+            "defaultRating": 10,
+            "isFavorite": true,
+            "isSecured": false,
+            "states": {
+                "jLocked": "9b70c2cf-020d-94f6-02ffe0e20d696b15",
+                "status": "1b70c2cf-020d-9501-0dffe0e20d696b15",
+                "mode": "1b70c2cf-020d-9502-0effe0e20d696b15",
+                "fan": "1b70c2cf-020d-9503-0fffe0e20d696b15",
+                "ventMode": "1b70c2cf-020d-9504-10ffe0e20d696b15",
+                "targetTemperature": "1b70c2cf-020d-9505-11ffe0e20d696b15",
+                "temperature": "1b70c2cf-020d-9506-12ffe0e20d696b15",
+                "pauseTime": "1b70c2cf-020d-9500-0cffe0e20d696b15",
+                "operatingModes": "1b70c2cf-020d-94ee-ffffe0e20d696b15",
+                "fanspeeds": "1b70c2cf-020d-94f0-ffffe0e20d696b15",
+                "airflows": "1b70c2cf-020d-94ef-ffffe0e20d696b15",
+                "override": "1b70c2cf-020d-94f1-ffffe0e20d696b15",
+                "pauseUntil": "1b70c2cf-020d-94f2-ffffe0e20d696b15",
+                "pauseReason": "1b70c2cf-020d-94f3-ffffe0e20d696b15"
+            }
         }
     }
 }

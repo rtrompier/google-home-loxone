@@ -1,7 +1,7 @@
 export class ComponentRaw {
     public id: string;
     public loxoneId?: string;
-    public type: 'LIGHT' | 'THERMOSTAT' | 'BLINDS' | 'SWITCH' | 'SENSOR';
+    public type: 'LIGHT' | 'THERMOSTAT' | 'BLINDS' | 'SWITCH' | 'SENSOR' | 'AIRCOOLER';
     public loxoneType: string;
     public name: string;
     public room: string;

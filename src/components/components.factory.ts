@@ -7,6 +7,7 @@ import { Component } from './component';
 import { LightComponent } from './light';
 import { SwitchComponent } from './switch';
 import { TemperatureComponent } from './temperature';
+import { AirCoolerComponent } from './air-cooler';
 
 export class ComponentsFactory {
     private components: { [key: string]: Component } = {};
@@ -55,6 +56,9 @@ export class ComponentsFactory {
                         case 'IRoomControllerV2':
                             component = new TemperatureComponent(rawComponent, this.loxoneRequest, this.statesEvents);
                             break;
+                        case 'AcControl':
+                            component = new AirCoolerComponent(rawComponent, this.loxoneRequest, this.statesEvents);
+                            break;
                         // case 'WindowMonitor':
                         //     component = new OpenCloseSensorComponent(rawComponent, this.loxoneRequest, this.statesEvents);
                         //     break;
@@ -80,7 +84,7 @@ export class ComponentsFactory {
         return this.components;
     }
 
-    private extractType(loxoneType: string): 'LIGHT' | 'THERMOSTAT' | 'BLINDS' | 'SWITCH' | 'SENSOR' {
+    private extractType(loxoneType: string): 'LIGHT' | 'THERMOSTAT' | 'BLINDS' | 'SWITCH' | 'SENSOR' | 'AIRCOOLER' {
         switch (loxoneType) {
             case 'Switch':
                 return 'LIGHT';
@@ -94,6 +98,8 @@ export class ComponentsFactory {
                 return 'THERMOSTAT';
             case 'WindowMonitor':
                 return 'SENSOR';
+            case 'AcControl':
+                return 'AIRCOOLER';
         }
     }
 }

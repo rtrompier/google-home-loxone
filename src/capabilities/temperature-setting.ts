@@ -1,4 +1,4 @@
-import { Observable, of } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { Capability, CapabilityHandler } from './capability-handler';
 import { TemperatureControl } from './temperature-control';
 
@@ -12,6 +12,10 @@ export class TemperatureState {
 
 export interface TemperatureSetting extends Capability {
   getTemperature(): Observable<TemperatureState>;
+
+  setTemperature(temp: number): Observable<boolean>;
+
+  setMode(mode: string): Observable<boolean>;
 }
 
 export class TemperatureSettingHandler implements CapabilityHandler<TemperatureSetting> {
@@ -20,6 +24,7 @@ export class TemperatureSettingHandler implements CapabilityHandler<TemperatureS
   getCommands(): string[] {
     return [
       'action.devices.commands.ThermostatTemperatureSetpoint',
+      'action.devices.commands.ThermostatSetMode',
       'action.devices.commands.ThermostatTemperatureSetRange',
       'action.devices.commands.ThermostatSetMode'
     ];
@@ -35,13 +40,21 @@ export class TemperatureSettingHandler implements CapabilityHandler<TemperatureS
 
   getAttributes(component: TemperatureControl): any {
     return {
-      'availableThermostatModes': 'off,on,heat,cool,heatcool',
+      'availableThermostatModes': 'off,on,heat,cool,heatcool,auto,dry,fan-only',
       'thermostatTemperatureUnit': 'C'
     }
   }
 
   handleCommands(component: TemperatureSetting, command: string, payload?: any): Observable<boolean> {
-    console.log('No TemperatureComponent control handle');
-    return of(true);
+    switch (command) {
+      case 'action.devices.commands.ThermostatTemperatureSetpoint':
+        return component.setTemperature(payload.thermostatTemperatureSetpoint)
+          .pipe(map(() => true));
+      case 'action.devices.commands.ThermostatSetMode':
+        return component.setMode(payload.thermostatMode)
+          .pipe(map(() => true));
+      default:
+        return of(true);
+    }
   }
 }
