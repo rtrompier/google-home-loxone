@@ -39,7 +39,7 @@ describe('Sync', () => {
         })
             .pipe(map((resp: any) => resp.data))
             .subscribe((resp) => {
-                expect(resp.payload.devices.length).toEqual(5);
+                expect(resp.payload.devices.length).toEqual(6);
 
                 expect(resp.payload.devices[0].id).toEqual('10f5096d-0338-13c2-ffffd75a488e408a');
                 expect(resp.payload.devices[0].type).toEqual('action.devices.types.LIGHT');
@@ -55,6 +55,9 @@ describe('Sync', () => {
 
                 expect(resp.payload.devices[4].id).toEqual('10f4ff00-0155-692f-ffff6322d0f91669');
                 expect(resp.payload.devices[4].type).toEqual('action.devices.types.LIGHT');
+
+                expect(resp.payload.devices[5].id).toEqual('10f4ff00-0155-692f-ffff6322d0f91670');
+                expect(resp.payload.devices[5].type).toEqual('action.devices.types.AIRCOOLER');
 
                 done();
             });
