@@ -6,6 +6,10 @@ on:
     - '**'
     tags-ignore:
     - '**'
+    paths:
+    - 'src/**'
+    - 'spec/**'
+    - 'bin/**'
   pull_request:
   workflow_dispatch:
 
