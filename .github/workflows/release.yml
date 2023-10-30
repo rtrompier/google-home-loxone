@@ -39,8 +39,8 @@ jobs:
       - name: Login to Registry
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKER_INTERNAL_USERNAME }}
-          password: ${{ secrets.DOCKER_INTERNAL_PASSWORD }}
+          username: rtrompier
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
