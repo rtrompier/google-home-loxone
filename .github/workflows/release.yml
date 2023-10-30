@@ -32,11 +32,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Tailscale
-        uses: tailscale/github-action@v1
-        with:
-          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
-
       - name: Update version in package.toml
         run: |
           sed -i 's/0.0.0-latest/${{ needs.release.outputs.version }}/' package.json
